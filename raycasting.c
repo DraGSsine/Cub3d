@@ -6,18 +6,19 @@
 /*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 06:46:42 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/31 06:43:02 by youchen          ###   ########.fr       */
+/*   Updated: 2024/05/31 17:21:05 by youchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
 
 t_ray	short_dist(t_ray_horz *ray_horz, t_ray_vert *ray_vert,
 		int horz_distance, int vert_distance)
 {
 	t_ray	ray;
 
-	if (vert_distance < horz_distance)
+	if (vert_distance <= horz_distance)
 	{
 		ray.distance = vert_distance;
 		ray.wall_hit_x = ray_vert->wall_hit_x;
@@ -36,11 +37,11 @@ t_ray	short_dist(t_ray_horz *ray_horz, t_ray_vert *ray_vert,
 
 void	cast_ray(double ray_angle, t_data *data, t_ray *ray)
 {
-	t_ray_horz	ray_horz;
-	t_ray_vert	ray_vert;
 	int			horz_distance;
 	int			vert_distance;
 	t_ray		ray_info;
+	t_ray_horz	ray_horz;
+	t_ray_vert	ray_vert;
 
 	ray_horz = cast_horz_ray(ray_angle, data);
 	ray_vert = cast_vert_ray(ray_angle, data);
@@ -60,7 +61,8 @@ void	cast_ray(double ray_angle, t_data *data, t_ray *ray)
 	ray->wall_hit_x = ray_info.wall_hit_x;
 	ray->wall_hit_y = ray_info.wall_hit_y;
 	ray->was_hit_vertical = ray_info.was_hit_vertical;
-
+	draw_ray_line(data->player.x, data->player.y, ray->wall_hit_x,
+				ray->wall_hit_y, 0xFFFFFF, data);
 }
 
 void	cast_all_rays(t_data *data, t_ray *rays)
@@ -70,12 +72,11 @@ void	cast_all_rays(t_data *data, t_ray *rays)
 	int		i;
 
 	i = 0;
-	data->player.rotation_angle = normalize_angle(data->player.rotation_angle);
 	rays_num = data->map_info.rays_num;
 	ray_angle = data->player.rotation_angle - (data->player.fov / 2);
 	while (i < rays_num)
 	{
-		cast_ray(ray_angle, data, &rays[i]);
+		cast_ray(normalize_angle(ray_angle), data, &rays[i]);
 		ray_angle += data->player.fov / rays_num;
 		i++;
 	}

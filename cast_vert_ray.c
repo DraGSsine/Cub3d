@@ -6,7 +6,7 @@
 /*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 08:47:12 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/30 13:21:16 by youchen          ###   ########.fr       */
+/*   Updated: 2024/05/31 17:20:58 by youchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ t_ray_vert	cast_vert_ray(double ray_angle, t_data *data)
 	t_vert_info	info;
 	t_ray_vert	ray;
 
-	ray.found_hit = 0;
-	ray.wall_hit_x = 0;
-	ray.wall_hit_y = 0;
 	setup_vert_ray(&info, data, ray_angle);
 	while (keep_checking(data, info.next_vert_touch_x, info.next_vert_touch_y))
 	{

@@ -6,7 +6,7 @@
 /*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/31 06:43:31 by youchen          ###   ########.fr       */
+/*   Updated: 2024/05/31 12:13:43 by youchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,16 @@ void draw_player(t_data *data)
 		}
 		i++;
 	}
-	draw_line(data);
 }
 
 void	draw(t_data *data)
 {
-	t_ray	rays[data->map_info.rays_num];
+	t_ray	rays[MAP_WIDTH * TILE_SIZE];
 
 	draw_map(data);
 	draw_player(data);
 	cast_all_rays(data, rays);
+	// render_walls(data, rays);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
 }
 

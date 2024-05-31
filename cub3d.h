@@ -6,7 +6,7 @@
 /*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/30 13:56:56 by youchen          ###   ########.fr       */
+/*   Updated: 2024/05/31 13:56:00 by youchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,13 @@ void		cast_all_rays(t_data *data, t_ray *rays);
 void		cast_ray(double ray_angle, t_data *data, t_ray *ray);
 t_ray_horz	cast_horz_ray(double ray_angle, t_data *data);
 t_ray_vert	cast_vert_ray(double ray_angle, t_data *data);
-double		normalize_angle(double angle);
+float		normalize_angle(double angle);
 int			distance_between_points(int x1, int y1, int x2, int y2);
 int			keep_checking(t_data *data, int x, int y);
 int			hit_vert(t_data *data, t_vert_info info);
 int			hit_horz(t_data *data, t_horz_info info);
+void		render_walls(t_data *data, t_ray *rays);
+/// to be deleted
+void draw_ray_line(int xFrom, int yFrom, int xTo, int yTo,int color , t_data *data);
+//
 #endif

@@ -6,11 +6,37 @@
 /*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 08:54:57 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/31 06:43:18 by youchen          ###   ########.fr       */
+/*   Updated: 2024/05/31 17:18:50 by youchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+void draw_ray_line(int xFrom, int yFrom, int xTo, int yTo,int color , t_data *data)
+{
+    int dx = abs(xTo - xFrom);
+    int dy = abs(yTo - yFrom);
+    int sx = xFrom < xTo ? 1 : -1;
+    int sy = yFrom < yTo ? 1 : -1;
+    int err = (dx>dy ? dx : -dy)/2, e2;
+
+    while (1)
+    {
+        my_mlx_pixel_put(data , xFrom, yFrom , color);
+        if (xFrom == xTo && yFrom == yTo)
+            break;
+        e2 = err;
+        if (e2 > -dx)
+        {
+            err -= dy;
+            xFrom += sx;
+        }
+        if (e2 < dy)
+        {
+            err += dx;
+            yFrom += sy;
+        }
+    }
+}
 
 void	setup_horz_ray(t_horz_info *info, t_data *data, double ray_angle)
 {
@@ -38,9 +64,6 @@ t_ray_horz	cast_horz_ray(double ray_angle, t_data *data)
 	t_horz_info	info;
 	t_ray_horz	ray;
 
-	ray.found_hit = 0;
-	ray.wall_hit_x = 0;
-	ray.wall_hit_y = 0;
 	setup_horz_ray(&info, data, ray_angle);
 	while (keep_checking(data, info.next_horz_touch_x, info.next_horz_touch_y))
 	{

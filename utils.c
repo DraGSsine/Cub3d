@@ -6,7 +6,7 @@
 /*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:34:15 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/30 10:50:19 by youchen          ###   ########.fr       */
+/*   Updated: 2024/05/31 13:55:45 by youchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int	block_color(int i)
 	return (0x000000);
 }
 
-double	normalize_angle(double angle)
+float	normalize_angle(double angle)
 {
-	angle = fmod(angle, 2 * M_PI);
-	if (angle < 0)
-		angle += 2 * M_PI;
-	return (angle);
+    angle = remainder(angle, 2 * M_PI);
+    if (angle < 0)
+        angle = (2 * M_PI) + angle;
+    return angle;
 }
