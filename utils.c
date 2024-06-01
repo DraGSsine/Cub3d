@@ -6,16 +6,16 @@
 /*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:34:15 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/31 13:55:45 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/01 09:53:52 by youchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 
-int	distance_between_points(int x1, int y1, int x2, int y2)
+double	distance_between_points(double x1, double y1, double x2, double y2)
 {
-	return (sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
+	return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
 }
 
 int	hit_wall(t_data *data, int x, int y)
@@ -25,17 +25,17 @@ int	hit_wall(t_data *data, int x, int y)
 	return (0);
 }
 
-int	block_color(int i)
+double	block_color(double i)
 {
 	if (i == 1)
 		return (0x757575);
 	return (0x000000);
 }
 
-float	normalize_angle(double angle)
+double	normalize_angle(double angle)
 {
-    angle = remainder(angle, 2 * M_PI);
-    if (angle < 0)
-        angle = (2 * M_PI) + angle;
-    return angle;
+	angle = fmod(angle, 2 * M_PI);
+	if (angle < 0)
+		angle = (2 * M_PI) + angle;
+	return (angle);
 }

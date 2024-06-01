@@ -5,78 +5,73 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 06:46:42 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/31 17:21:05 by youchen          ###   ########.fr       */
+/*   Created: 2024/06/01 07:51:11 by youchen           #+#    #+#             */
+/*   Updated: 2024/06/01 12:07:09 by youchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-t_ray	short_dist(t_ray_horz *ray_horz, t_ray_vert *ray_vert,
-		int horz_distance, int vert_distance)
+double	distance(t_data *data, double x, double y, double found)
 {
-	t_ray	ray;
+	if (found)
+		return (distance_between_points(data->player.x, data->player.y, x, y));
+	return (INT_MAX);
+}
 
-	if (vert_distance <= horz_distance)
+void	short_distance(t_ray *ray, t_ray_horz horz,
+		t_ray_vert vert, t_data *data)
+{
+	double	horz_distance;
+	double	vert_distance;
+	double	horz_hit;
+	double	vert_hit;
+
+	horz_hit = horz.found_hit;
+	vert_hit = vert.found_hit;
+	horz_distance = distance(data, horz.wall_hit_x, horz.wall_hit_y, horz_hit);
+	vert_distance = distance(data, vert.wall_hit_x, vert.wall_hit_y, vert_hit);
+	if (horz_distance < vert_distance)
 	{
-		ray.distance = vert_distance;
-		ray.wall_hit_x = ray_vert->wall_hit_x;
-		ray.wall_hit_y = ray_vert->wall_hit_y;
-		ray.was_hit_vertical = 1;
+		ray->distance = horz_distance;
+		ray->wall_hit_x = horz.wall_hit_x;
+		ray->wall_hit_y = horz.wall_hit_y;
+		ray->was_hit_vertical = 0;
 	}
 	else
 	{
-		ray.distance = horz_distance;
-		ray.wall_hit_x = ray_horz->wall_hit_x;
-		ray.wall_hit_y = ray_horz->wall_hit_y;
-		ray.was_hit_vertical = 0;
+		ray->distance = vert_distance;
+		ray->wall_hit_x = vert.wall_hit_x;
+		ray->wall_hit_y = vert.wall_hit_y;
+		ray->was_hit_vertical = 1;
 	}
-	return (ray);
 }
+
 
 void	cast_ray(double ray_angle, t_data *data, t_ray *ray)
 {
-	int			horz_distance;
-	int			vert_distance;
-	t_ray		ray_info;
-	t_ray_horz	ray_horz;
-	t_ray_vert	ray_vert;
+	t_ray_horz	horz;
+	t_ray_vert	vert;
 
-	ray_horz = cast_horz_ray(ray_angle, data);
-	ray_vert = cast_vert_ray(ray_angle, data);
-	if (ray_horz.found_hit)
-		horz_distance = distance_between_points(data->player.x, data->player.y,
-				ray_horz.wall_hit_x, ray_horz.wall_hit_y);
-	else
-		horz_distance = INT_MAX;
-
-	if (ray_vert.found_hit)
-		vert_distance = distance_between_points(data->player.x, data->player.y,
-				ray_vert.wall_hit_x, ray_vert.wall_hit_y);
-	else
-		vert_distance = INT_MAX;
-	ray_info = short_dist(&ray_horz, &ray_vert, horz_distance, vert_distance);
-	ray->distance = ray_info.distance;
-	ray->wall_hit_x = ray_info.wall_hit_x;
-	ray->wall_hit_y = ray_info.wall_hit_y;
-	ray->was_hit_vertical = ray_info.was_hit_vertical;
-	draw_ray_line(data->player.x, data->player.y, ray->wall_hit_x,
-				ray->wall_hit_y, 0xFFFFFF, data);
+	ray_angle = normalize_angle(ray_angle);
+	horz = cast_horz_ray(ray_angle, data);
+	vert = cast_vert_ray(ray_angle, data);
+	short_distance(ray, horz, vert, data);
 }
 
-void	cast_all_rays(t_data *data, t_ray *rays)
+void	cast_all_rays(t_data *data, t_ray *ray)
 {
 	double	ray_angle;
-	int		rays_num;
 	int		i;
+	int		rays_num;
 
 	i = 0;
 	rays_num = data->map_info.rays_num;
 	ray_angle = data->player.rotation_angle - (data->player.fov / 2);
 	while (i < rays_num)
 	{
-		cast_ray(normalize_angle(ray_angle), data, &rays[i]);
+		ray[i].ray_angle = ray_angle;
+		cast_ray(ray_angle, data, &ray[i]);
 		ray_angle += data->player.fov / rays_num;
 		i++;
 	}

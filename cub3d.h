@@ -6,7 +6,7 @@
 /*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/31 13:56:00 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/01 10:48:55 by youchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ typedef struct s_map_info
 
 typedef struct s_player
 {
-	float	x;
-	float	y;
-	float	dir;
-	float	fov;
-	int		move_speed;
+	double	x;
+	double	y;
+	double	dir;
+	double	fov;
+	double	move_speed;
 	double	rotation_speed;
 	double	rotation_angle;
 }	t_player;
@@ -55,54 +55,53 @@ typedef struct s_data
 
 typedef struct s_ray_horz
 {
-	int		was_hit_horizontal;
-	int		wall_hit_x;
-	int		wall_hit_y;
-	int		found_hit;
+	double		wall_hit_x;
+	double		wall_hit_y;
+	double		found_hit;
 }	t_ray_horz;
 
 typedef struct s_ray_vert
 {
-	int		was_hit_vertical;
-	int		wall_hit_x;
-	int		wall_hit_y;
-	int		found_hit;
+	double		wall_hit_x;
+	double		wall_hit_y;
+	double		found_hit;
 }	t_ray_vert;
 
 typedef struct s_ray
 {
-	int			was_hit_vertical;
-	int			wall_hit_x;
-	int			wall_hit_y;
-	int			distance;
+	double			was_hit_vertical;
+	double			wall_hit_x;
+	double			wall_hit_y;
+	double			distance;
+	double			ray_angle;
 }	t_ray;
 
 typedef struct s_horz_info
 {
-	int	x_step;
-	int	y_step;
-	int	x_intercept;
-	int	y_intercept;
-	int	next_horz_touch_x;
-	int	next_horz_touch_y;
-	int	down;
-	int	up;
-	int	right;
-	int	left;
+	double	x_step;
+	double	y_step;
+	double	x_intercept;
+	double	y_intercept;
+	double	next_horz_touch_x;
+	double	next_horz_touch_y;
+	double	down;
+	double	up;
+	double	right;
+	double	left;
 }	t_horz_info;
 
 typedef struct s_vert_info
 {
-	int	x_step;
-	int	y_step;
-	int	x_intercept;
-	int	y_intercept;
-	int	next_vert_touch_x;
-	int	next_vert_touch_y;
-	int	right;
-	int	left;
-	int	down;
-	int	up;
+	double	x_step;
+	double	y_step;
+	double	x_intercept;
+	double	y_intercept;
+	double	next_vert_touch_x;
+	double	next_vert_touch_y;
+	double	right;
+	double	left;
+	double	down;
+	double	up;
 }	t_vert_info;
 
 void		init_game(t_data *data);
@@ -115,13 +114,13 @@ void		cast_all_rays(t_data *data, t_ray *rays);
 void		cast_ray(double ray_angle, t_data *data, t_ray *ray);
 t_ray_horz	cast_horz_ray(double ray_angle, t_data *data);
 t_ray_vert	cast_vert_ray(double ray_angle, t_data *data);
-float		normalize_angle(double angle);
-int			distance_between_points(int x1, int y1, int x2, int y2);
+double		normalize_angle(double angle);
+double		distance_between_points(double x1, double y1, double x2, double y2);
 int			keep_checking(t_data *data, int x, int y);
 int			hit_vert(t_data *data, t_vert_info info);
 int			hit_horz(t_data *data, t_horz_info info);
 void		render_walls(t_data *data, t_ray *rays);
 /// to be deleted
-void draw_ray_line(int xFrom, int yFrom, int xTo, int yTo,int color , t_data *data);
+void	draw_ray_line(double x0, double y0, double x1, double y1, int color, t_data *data);
 //
 #endif

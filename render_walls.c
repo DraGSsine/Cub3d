@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 13:42:30 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/31 12:08:17 by youchen          ###   ########.fr       */
+/*   Created: 2024/04/23 15:09:54 by youchen           #+#    #+#             */
+/*   Updated: 2024/06/01 15:05:17 by youchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,36 +40,47 @@ void	clear_screen(t_data *data)
 	}
 }
 
-void	draw_wall(t_data *data, int i, int wall_strip_height)
+void	draw_wall(t_data *data, int i,
+		int wall_strip_height, int was_hit_vertical)
 {
 	int	start;
 	int	end;
+	int	color;
+	int	y;
+
+	if (wall_strip_height > data->map_info.window_height)
+		wall_strip_height = data->map_info.window_height;
 
 	start = (data->map_info.window_height / 2) - (wall_strip_height / 2);
 	end = (data->map_info.window_height / 2) + (wall_strip_height / 2);
-	while (start < end)
+	color = get_color_wall(was_hit_vertical);
+
+	y = start;
+	while (y < end)
 	{
-		my_mlx_pixel_put(data, i, start, 0xc0FcF0);
-		start++;
+		my_mlx_pixel_put(data, i, y, color);
+		y++;
 	}
-
 }
-
 
 void	render_walls(t_data *data, t_ray *rays)
 {
-	int	proj_dist;
-	int	wall_strip_height;
-	int	i;
+	int		proj_dist;
+	int		wall_strip_height;
+	int		i;
+	double	ray_distance;
 
-	i = -1;
-	// clear_screen(data);
-	while (++i < data->map_info.rays_num)
+	clear_screen(data);
+
+	proj_dist = (data->map_info.window_width / 2) / tan(data->player.fov / 2);
+
+	i = 0;
+	while (i < data->map_info.rays_num)
 	{
-		proj_dist = (data->map_info.window_width / 2) / tan(data->player.rotation_angle / 2);
-		wall_strip_height = (TILE_SIZE / rays[i].distance) * proj_dist;
-		if (wall_strip_height > data->map_info.window_height)
-			wall_strip_height = data->map_info.window_height;
-		draw_wall(data, i, wall_strip_height);
+		ray_distance = rays[i].distance * cos(rays[i].ray_angle
+				- data->player.rotation_angle);
+		wall_strip_height = (TILE_SIZE / ray_distance) * proj_dist;
+		draw_wall(data, i, wall_strip_height, rays[i].was_hit_vertical);
+		i++;
 	}
 }
