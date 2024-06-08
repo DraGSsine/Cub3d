@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_horz_ray.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 07:51:28 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/01 12:05:48 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/05 06:11:35 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	init_horz_ray(t_horz_info *info, t_data *data, double ray_angle)
 	info->next_horz_touch_x = info->x_intercept;
 	info->next_horz_touch_y = info->y_intercept;
 }
-
 
 t_ray_horz	cast_horz_ray(double ray_angle, t_data *data)
 {

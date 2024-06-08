@@ -3,20 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   render_walls.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:09:54 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/01 15:05:17 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/08 16:30:15 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	get_color_wall(int was_hit_vertical)
+int	get_color_wall(t_ray *ray )
 {
-	if (was_hit_vertical)
-		return (0x2e4e5e);
-	return (0x3f5e6d);
+	int texture_offset_x;
+	
+	if (ray->was_hit_vertical)
+		texture_offset_x =  (int)ray->wall_hit_y %  TILE_SIZE;
+	else
+		texture_offset_x =  (int)ray->wall_hit_x %  TILE_SIZE;
+	return (texture_offset_x);
 }
 
 void	clear_screen(t_data *data)
@@ -41,23 +45,26 @@ void	clear_screen(t_data *data)
 }
 
 void	draw_wall(t_data *data, int i,
-		int wall_strip_height, int was_hit_vertical)
+		int wall_strip_height, t_ray *ray)
 {
 	int	start;
 	int	end;
-	int	color;
+	int	texture_offset_x;
+	int texture_offset_y;
+	unsigned int	color;
 	int	y;
 
 	if (wall_strip_height > data->map_info.window_height)
 		wall_strip_height = data->map_info.window_height;
-
 	start = (data->map_info.window_height / 2) - (wall_strip_height / 2);
+	
 	end = (data->map_info.window_height / 2) + (wall_strip_height / 2);
-	color = get_color_wall(was_hit_vertical);
-
+	texture_offset_x = get_color_wall(ray);
 	y = start;
 	while (y < end)
 	{
+		texture_offset_y = (y - start) * ((float)TEXTURE_HEIGHT / wall_strip_height);
+		color = data->map_info.texture[(TEXTURE_WIDTH * texture_offset_y) + texture_offset_x];
 		my_mlx_pixel_put(data, i, y, color);
 		y++;
 	}
@@ -80,7 +87,7 @@ void	render_walls(t_data *data, t_ray *rays)
 		ray_distance = rays[i].distance * cos(rays[i].ray_angle
 				- data->player.rotation_angle);
 		wall_strip_height = (TILE_SIZE / ray_distance) * proj_dist;
-		draw_wall(data, i, wall_strip_height, rays[i].was_hit_vertical);
+		draw_wall(data, i, wall_strip_height, &rays[i]);
 		i++;
 	}
 }

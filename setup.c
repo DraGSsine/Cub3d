@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:52:30 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/01 13:35:09 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/08 16:16:14 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void   init_texture(t_data *data)
+{
+	int x;
+	int y;
+	
+	x = 0;
+	while (x < TEXTURE_WIDTH)
+	{
+		y = 0;
+		while (y < TEXTURE_HEIGHT)
+		{
+			if ( x % 8 && y % 8)
+				data->map_info.texture[(TEXTURE_WIDTH * y) + x] = 0x000000FF;
+			else
+				data->map_info.texture[(TEXTURE_WIDTH * y) + x] = 0xFF0000FF;
+			y++;
+		}
+		x++;
+	}
+	
+}
 
 void	init_game(t_data *data)
 {
@@ -23,8 +45,8 @@ void	init_game(t_data *data)
 		{1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1},
 		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1},
-		{1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		{1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
 	// int map[MAP_HEIGHT][MAP_WIDTH] = {
@@ -39,7 +61,6 @@ void	init_game(t_data *data)
 	// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
-
 	int i = -1;
 	while (++i < MAP_HEIGHT)
 	{
@@ -63,4 +84,6 @@ void	init_game(t_data *data)
 	data->player.rotation_speed = 5 * (M_PI / 180);
 	data->player.move_speed = 10;
 	data->player.fov = 60 * (M_PI / 180);
+	data->map_info.texture = (unsigned int *)malloc(sizeof(unsigned int) * TEXTURE_WIDTH * TEXTURE_HEIGHT);
+	init_texture(data);
 }

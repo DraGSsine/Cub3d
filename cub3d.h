@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/01 10:48:55 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/08 14:31:25 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+# include <inttypes.h>
 # include <mlx.h>
 # include <math.h>
 # include <stdio.h>
@@ -20,6 +21,8 @@
 # define MAP_WIDTH 15
 # define MAP_HEIGHT 11
 # define TILE_SIZE 64
+# define TEXTURE_WIDTH 64
+# define TEXTURE_HEIGHT 64
 
 typedef struct s_map_info
 {
@@ -27,6 +30,7 @@ typedef struct s_map_info
 	int		window_width;
 	int		window_height;
 	int		rays_num;
+	unsigned int		*texture;
 }	t_map_info;
 
 typedef struct s_player
