@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:09:54 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/08 16:30:15 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/09 15:34:46 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,21 @@ void	draw_wall(t_data *data, int i,
 	int	texture_offset_x;
 	int texture_offset_y;
 	unsigned int	color;
+	int distance;
 	int	y;
-
-	if (wall_strip_height > data->map_info.window_height)
-		wall_strip_height = data->map_info.window_height;
+    
 	start = (data->map_info.window_height / 2) - (wall_strip_height / 2);
-	
+	if (start < 0)
+		start = 0;
 	end = (data->map_info.window_height / 2) + (wall_strip_height / 2);
+    if (end > data->map_info.window_height)
+		end = data->map_info.window_height;
 	texture_offset_x = get_color_wall(ray);
 	y = start;
 	while (y < end)
 	{
-		texture_offset_y = (y - start) * ((float)TEXTURE_HEIGHT / wall_strip_height);
+		distance = y + (wall_strip_height / 2) - (data->map_info.window_height / 2);
+		texture_offset_y = distance * ((double)TEXTURE_HEIGHT / wall_strip_height);
 		color = data->map_info.texture[(TEXTURE_WIDTH * texture_offset_y) + texture_offset_x];
 		my_mlx_pixel_put(data, i, y, color);
 		y++;
@@ -82,7 +85,7 @@ void	render_walls(t_data *data, t_ray *rays)
 	proj_dist = (data->map_info.window_width / 2) / tan(data->player.fov / 2);
 
 	i = 0;
-	while (i < data->map_info.rays_num)
+	while  (i< data->map_info.rays_num)
 	{
 		ray_distance = rays[i].distance * cos(rays[i].ray_angle
 				- data->player.rotation_angle);

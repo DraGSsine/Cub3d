@@ -6,18 +6,18 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/08 14:31:25 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/09 15:12:41 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-# include <inttypes.h>
 # include <mlx.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
+// # include "textures.h"
 # define MAP_WIDTH 15
 # define MAP_HEIGHT 11
 # define TILE_SIZE 64
@@ -127,4 +127,9 @@ void		render_walls(t_data *data, t_ray *rays);
 /// to be deleted
 void	draw_ray_line(double x0, double y0, double x1, double y1, int color, t_data *data);
 //
+
+/* FUNCTIONS */
+void render_walls(t_data *data, t_ray *rays);
+void draw_wall(t_data *data, int i, int wall_height, t_ray *ray);
+
 #endif
