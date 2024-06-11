@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/09 15:12:41 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/09 22:07:21 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_map_info
 	int		window_width;
 	int		window_height;
 	int		rays_num;
-	unsigned int		*texture;
+	unsigned int		*texture[8];
 }	t_map_info;
 
 typedef struct s_player
@@ -55,6 +55,8 @@ typedef struct s_data
 	void		*mlx_win;
 	t_map_info	map_info;
 	t_player	player;
+	int		img_width;
+	int		img_height;
 }	t_data;
 
 typedef struct s_ray_horz
