@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/01 12:06:13 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/22 20:27:10 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void	draw(t_data *data)
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
 }
 
-int	main(void)
+int	main(int ac, char **av)
 {
 	t_data	data;
 
+	read_map(ac, av);
 	init_game(&data);
 	draw(&data);
 	mlx_hook(data.mlx_win, 2, 0, movement, &data);

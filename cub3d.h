@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/09 22:07:21 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/22 20:56:09 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
-// # include "textures.h"
+# include <unistd.h>
+# include <fcntl.h>
+# define BUFFER_SIZE 42
 # define MAP_WIDTH 15
 # define MAP_HEIGHT 11
 # define TILE_SIZE 64
@@ -110,6 +112,17 @@ typedef struct s_vert_info
 	double	up;
 }	t_vert_info;
 
+/*****************Linked_lst***************************/
+typedef struct s_list
+{
+	char *content;
+	struct s_list *next;
+}   t_list;
+void    ft_lstclear(t_list **lst);
+void    ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstnew(char *content);
+/*******************************************************/
+
 void		init_game(t_data *data);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int			movement(int key, t_data *data);
@@ -131,7 +144,20 @@ void	draw_ray_line(double x0, double y0, double x1, double y1, int color, t_data
 //
 
 /* FUNCTIONS */
+void read_file(char *file, t_list **head);
+void read_map (int ac, char **av);
+int ft_strcmp(char *s1, char *s2);
+void	error_and_exit(char *s, int exite);
+int ft_strlen(char *s);
 void render_walls(t_data *data, t_ray *rays);
 void draw_wall(t_data *data, int i, int wall_height, t_ray *ray);
 
+/*get_next_line*/
+char	*read_and_getline(char *buf, int fd, char *line);
+void	free_it(char *str);
+char	*ft_strjoin1(char *line, char *buf);
+void	shift(char *buf, int endl);
+int		ft_strlen1(char *s);
+int		ft_strchr1( char *s, int readit);
+char	*get_next_line(int fd);
 #endif

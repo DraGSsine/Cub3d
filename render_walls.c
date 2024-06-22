@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:09:54 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/11 08:53:00 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/22 17:40:04 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	clear_screen(t_data *data)
 {
 	int	x;
 	int	y;
-	int color;
 
 	y = 0;
 	while (y < data->map_info.window_height)
@@ -43,8 +42,6 @@ void	clear_screen(t_data *data)
 		}
 		y++;
 	}
-	void *s = mlx_xpm_file_to_image(data->mlx, "./c.xpm", &data->img_width, &data->img_height);
-	mlx_put_image_to_window(data->mlx, data->mlx_win, s, x, y);
 }
 
 void	draw_wall(t_data *data, int i,
@@ -69,7 +66,7 @@ void	draw_wall(t_data *data, int i,
 	y = start;
 	while (y < end)
 	{
-		texture_index = 6;
+		texture_index = 3;
 		distance = y + (wall_strip_height / 2) - (data->map_info.window_height / 2);
 		texture_offset_y = distance * ((double)TEXTURE_HEIGHT / wall_strip_height);
 		color = data->map_info.texture[texture_index][((TEXTURE_WIDTH * texture_offset_y) + texture_offset_x) * 4] |
