@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/22 20:56:09 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/23 23:06:34 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define TILE_SIZE 64
 # define TEXTURE_WIDTH 64
 # define TEXTURE_HEIGHT 64
+
 
 typedef struct s_map_info
 {
@@ -111,17 +112,54 @@ typedef struct s_vert_info
 	double	down;
 	double	up;
 }	t_vert_info;
+typedef struct s_texture
+{
+	int		north;
+	int		south;
+	int		west;
+	int		east;
+	int		floor;
+	int		ceiling;
+	char	**map;
+	int 	height;
+	int 	width;
+}	t_texture;
 
-/*****************Linked_lst***************************/
+/****************************** |ADD BY YOUSSEF| *****************************/
+
+		/*Linked_ls**/
 typedef struct s_list
 {
-	char *content;
-	struct s_list *next;
-}   t_list;
-void    ft_lstclear(t_list **lst);
-void    ft_lstadd_back(t_list **lst, t_list *new);
-t_list	*ft_lstnew(char *content);
-/*******************************************************/
+	char			*content;
+	struct s_list	*next;
+}	t_list;
+void		ft_lstclear(t_list **lst);
+void		ft_lstadd_back(t_list **lst, t_list *new);
+t_list		*ft_lstnew(char *content);
+int			ft_lstsize(t_list *lst);
+
+		/* FUNCTIONS */
+int			ft_isdigit(int c);
+char		*ft_strtrim( char *s1, char *set);
+char		*ft_monstrdup( char *s1, size_t size);
+int			ft_strncmp( char *s1, char *s2, size_t n );
+void		read_file(char *file, t_list **head);
+t_texture	read_map(int ac, char **av);
+int			ft_strcmp(char *s1, char *s2);
+void		error_and_exit(char *s, int exite);
+int			ft_strlen(char *s);
+void		render_walls(t_data *data, t_ray *rays);
+void		draw_wall(t_data *data, int i, int wall_height, t_ray *ray);
+
+/*get_next_line*/
+char		*read_and_getline(char *buf, int fd, char *line);
+void		free_it(char *str);
+char		*ft_strjoin1(char *line, char *buf);
+void		shift(char *buf, int endl);
+int			ft_strlen1(char *s);
+int			ft_strchr1( char *s, int readit);
+char		*get_next_line(int fd);
+/******************************************************************************/
 
 void		init_game(t_data *data);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
@@ -140,24 +178,7 @@ int			hit_vert(t_data *data, t_vert_info info);
 int			hit_horz(t_data *data, t_horz_info info);
 void		render_walls(t_data *data, t_ray *rays);
 /// to be deleted
-void	draw_ray_line(double x0, double y0, double x1, double y1, int color, t_data *data);
+void		draw_ray_line(double x0, double y0, double x1, double y1, int color, t_data *data);
 //
 
-/* FUNCTIONS */
-void read_file(char *file, t_list **head);
-void read_map (int ac, char **av);
-int ft_strcmp(char *s1, char *s2);
-void	error_and_exit(char *s, int exite);
-int ft_strlen(char *s);
-void render_walls(t_data *data, t_ray *rays);
-void draw_wall(t_data *data, int i, int wall_height, t_ray *ray);
-
-/*get_next_line*/
-char	*read_and_getline(char *buf, int fd, char *line);
-void	free_it(char *str);
-char	*ft_strjoin1(char *line, char *buf);
-void	shift(char *buf, int endl);
-int		ft_strlen1(char *s);
-int		ft_strchr1( char *s, int readit);
-char	*get_next_line(int fd);
 #endif
