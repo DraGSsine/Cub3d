@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/23 23:06:34 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/24 23:35:25 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,19 @@
 
 typedef struct s_map_info
 {
-	int		map[MAP_HEIGHT][MAP_WIDTH];
+	// int		map[MAP_HEIGHT][MAP_WIDTH];
 	int		window_width;
 	int		window_height;
 	int		rays_num;
+	int		north_txt;
+	int		south_txt;
+	int		west_txt;
+	int		east_txt;
+	int		floor_clr;
+	int		ceiling_clr;
+	char	**map;
+	int 	height_map;
+	int 	width_map;
 	unsigned int		*texture[8];
 }	t_map_info;
 
@@ -144,7 +153,7 @@ char		*ft_strtrim( char *s1, char *set);
 char		*ft_monstrdup( char *s1, size_t size);
 int			ft_strncmp( char *s1, char *s2, size_t n );
 void		read_file(char *file, t_list **head);
-t_texture	read_map(int ac, char **av);
+void		read_map(int ac, char **av, t_data *data);
 int			ft_strcmp(char *s1, char *s2);
 void		error_and_exit(char *s, int exite);
 int			ft_strlen(char *s);
