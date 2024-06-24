@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:40:46 by ymomen            #+#    #+#             */
-/*   Updated: 2024/06/23 23:11:11 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/24 17:48:18 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,59 +87,84 @@ int parce_color(char *line)
     return (color[0] << 16 | color[1] << 8 | color[2]);
 
 }
-int open_texture(t_texture *texture, char **diraction)
+int open_texture(t_map_info *map, char **diraction)
 {
     int i;
 
     i = 0;
-    texture->north = open(diraction[0], O_RDONLY);
-    texture->south = open(diraction[1], O_RDONLY);
-    texture->west = open(diraction[2], O_RDONLY);
-    texture->east = open(diraction[3], O_RDONLY);  
-    if (texture->north < 0 || texture->south < 0 || texture->west < 0 || texture->east < 0)
+    map->north = open(diraction[0], O_RDONLY);
+    map->south = open(diraction[1], O_RDONLY);
+    map->west = open(diraction[2], O_RDONLY);
+    map->east = open(diraction[3], O_RDONLY);  
+    if (map->north < 0 || map->south < 0 || map->west < 0 || map->east < 0)
         {
-            close(texture->north);
-            close(texture->south);
-            close(texture->west);
-            close(texture->east);
+            close(map->north);
+            close(map->south);
+            close(map->west);
+            close(map->east);
             while (i < 4)
                 free(diraction[i++]);
             error_and_exit("Error\nCan't open textures\n", -9);
         }
     return (1);
-} 
-int handle_map(t_list *head, t_texture *texture)
+}
+
+size_t len_map(t_list *head)
+{
+    int len;
+    int max_len;
+
+    max_len = 0;
+    while (head)
+    {
+        len = ft_strlen(head->content);
+        if (len > max_len)
+            max_len = len;
+        head = head->next;
+    }
+    return (max_len);
+}
+int handle_map(t_list *head, t_map_info *map)
 {
     int i;
-    int len;
-    char **map;
+    int **map_tmp;
 
-    texture->height = ft_lstsize(head);
-    texture->width = 0;
-    map = (char **)malloc(sizeof(char *) * (texture->height + 1));
-    if (!map)
+    map->height_map = ft_lstsize(head);
+    map->width_map = len_map(head);
+    map_tmp = (int **)malloc(sizeof(int *) * map->height_map);
+    if (!map_tmp)
         return (0);
     i = 0;
     while (head)
     {
-        len = ft_strlen(head->content);
-        if (len > 0)
+       int j = 0;
+        map_tmp[i] = (int *)malloc(sizeof(int) * map->width_map);
+        if (!map_tmp[i])
+            return (0);
+        while (head->content[j])
         {
-            map[i] = ft_monstrdup(head->content, len);
-            if (!map[i])
+            if (head->content[j] == '1')
+                map_tmp[i][j] = 1;
+            else if (head->content[j] == ' ')
+                map_tmp[i][j] = 1;
+            else if (head->content[j] == '0')
+                map_tmp[i][j] = 0;
+            else if (head->content[j] == '\t')
+                map_tmp[i][j] = 1;
+            else if (head->content[j] == 'S' || head->content[j] == 'N' || head->content[j] == 'W' || head->content[j] == 'E')
+                map_tmp[i][j] = 2;
+            else
                 return (0);
-            i++;
+            j++;
         }
-        if (texture->width < len)
-            texture->width = len;
+        i++;
         head = head->next;
     }
-    map[i] = NULL;
-    texture->map = map;
+    map->map = map_tmp;
     return (1);
 }
 
-void parse_map(t_list *head, t_texture *texture)
+void parse_map(t_list *head, t_map_info *map)
 {
     char *diraction[4];
     while (head)
@@ -153,42 +178,47 @@ void parse_map(t_list *head, t_texture *texture)
         else if (!ft_strncmp(head->content,"EA", 2) && ft_strlen(head->content) > 3)
             diraction[3] = ft_monstrdup(head->content + 3, ft_strlen(head->content) - 3);
         else if (!ft_strncmp(head->content,"F", 1) && ft_strlen(head->content) > 2)
-            texture->floor = parce_color(head->content + 2);
+            map->floor = parce_color(head->content + 2);
         else if (!ft_strncmp(head->content,"C", 1) && ft_strlen(head->content) > 2)
-            texture->ceiling = parce_color(head->content + 2);
+            map->ceiling = parce_color(head->content + 2);
         else
             break;
         head = head->next;
     }
-    open_texture(texture, diraction);
-    if (!handle_map(head, texture))
+    open_texture(map, diraction);
+    if (!handle_map(head, map))
     {
         ft_lstclear(&head);
         error_and_exit("Error\nCan't handle map\n", -9);
     }
 }
-void print_texture(t_texture *texture)
+void print_texture(t_map_info *map)
 {
-    int i;
+    size_t i;
     i = 0;
-    printf("NO: %d\n", texture->north);
-    printf("SO: %d\n", texture->south);
-    printf("WE: %d\n", texture->west);
-    printf("EA: %d\n", texture->east);
-    printf("F: %d\n", texture->floor);
-    printf("C: %d\n", texture->ceiling);
-    while (texture->map[i])
+    printf("NO: %d\n", map->north);
+    printf("SO: %d\n", map->south);
+    printf("WE: %d\n", map->west);
+    printf("EA: %d\n", map->east);
+    printf("F: %d\n", map->floor);
+    printf("C: %d\n", map->ceiling);
+    while (i < map->height_map)
     {
-        printf("%s\n", texture->map[i]);
+        size_t j = 0;
+        while(j < map->width_map)
+        {
+            printf("%d", map->map[i][j]);
+            j++;
+        }
+        printf("\n");
         i++;
     }
 }
 
-t_texture read_map (int ac, char **av)
+void read_map (int ac, char **av, t_data *data)
 {
     int len;
     t_list *head;
-    t_texture texture;
 
     if (ac != 2)
         error_and_exit("Error\nWorng Number of arguments", -9);
@@ -199,8 +229,7 @@ t_texture read_map (int ac, char **av)
     head = NULL;
     read_file(av[1], &head);
     trim_map(&head);
-    parse_map(head, &texture);
-    print_texture(&texture);
-    ft_lstclear(&head); 
-    return (texture);
+    parse_map(head, &data->map_info);
+    print_texture(&data->map_info);
+    ft_lstclear(&head);
 }

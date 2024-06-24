@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/23 23:01:18 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/24 16:54:26 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 
-	read_map(ac, av);
+	read_map(ac, av, &data);
 	init_game(&data);
 	draw(&data);
 	mlx_hook(data.mlx_win, 2, 0, movement, &data);
