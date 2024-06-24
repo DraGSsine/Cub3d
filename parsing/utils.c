@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:10:47 by ymomen            #+#    #+#             */
-/*   Updated: 2024/06/23 22:59:23 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/24 18:36:18 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,29 @@ char	*ft_monstrdup( char *s1, size_t size)
 	}
 	dup[i] = '\0';
 	return (dup);
+}
+
+void print_texture(t_map_info *map)
+{
+    size_t i;
+    i = 0;
+    printf("map height: %zu\n", map->height_map);
+    printf("map width: %zu\n", map->width_map);
+    printf("NO: %d\n", map->north);
+    printf("SO: %d\n", map->south);
+    printf("WE: %d\n", map->west);
+    printf("EA: %d\n", map->east);
+    printf("F: %d\n", map->floor);
+    printf("C: %d\n", map->ceiling);
+    while (i < map->height_map)
+    {
+        size_t j = 0;
+        while(j < map->width_map)
+        {
+            printf("%d", map->map[i][j]);
+            j++;
+        }
+        printf("\n");
+        i++;
+    }
 }

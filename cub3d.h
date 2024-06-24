@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/24 16:57:56 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/24 19:16:21 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 # define TEXTURE_HEIGHT 64
 
 
+#define NORTH 78
+#define SOUTH 83
+#define WEST 87
+#define EAST 69
 typedef struct s_map_info
 {
 	int		window_width;
@@ -140,6 +144,7 @@ t_list		*ft_lstnew(char *content);
 int			ft_lstsize(t_list *lst);
 
 		/* FUNCTIONS */
+void		print_texture(t_map_info *map);
 int			ft_isdigit(int c);
 char		*ft_strtrim( char *s1, char *set);
 char		*ft_monstrdup( char *s1, size_t size);

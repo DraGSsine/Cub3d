@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:40:46 by ymomen            #+#    #+#             */
-/*   Updated: 2024/06/24 17:48:18 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/24 19:45:12 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,13 @@ int parce_color(char *line)
     return (color[0] << 16 | color[1] << 8 | color[2]);
 
 }
-int open_texture(t_map_info *map, char **diraction)
+int open_texture(t_data *data, char **diraction)
 {
     int i;
+    t_map_info *map;
 
     i = 0;
+    map = &data->map_info;
     map->north = open(diraction[0], O_RDONLY);
     map->south = open(diraction[1], O_RDONLY);
     map->west = open(diraction[2], O_RDONLY);
@@ -124,11 +126,24 @@ size_t len_map(t_list *head)
     }
     return (max_len);
 }
-int handle_map(t_list *head, t_map_info *map)
+void init_maps(int *map, size_t width)
+{
+    size_t i;
+
+    i = 0;
+    while (i < width)
+    {
+        map[i] = ' ';
+        i++;
+    }
+}
+int handle_map(t_list *head, t_data *data)
 {
     int i;
     int **map_tmp;
+    t_map_info *map;
 
+    map = &data->map_info;
     map->height_map = ft_lstsize(head);
     map->width_map = len_map(head);
     map_tmp = (int **)malloc(sizeof(int *) * map->height_map);
@@ -141,18 +156,24 @@ int handle_map(t_list *head, t_map_info *map)
         map_tmp[i] = (int *)malloc(sizeof(int) * map->width_map);
         if (!map_tmp[i])
             return (0);
+        init_maps(map_tmp[i], map->width_map);
         while (head->content[j])
         {
             if (head->content[j] == '1')
                 map_tmp[i][j] = 1;
             else if (head->content[j] == ' ')
-                map_tmp[i][j] = 1;
+                map_tmp[i][j] = ' ';
             else if (head->content[j] == '0')
                 map_tmp[i][j] = 0;
             else if (head->content[j] == '\t')
-                map_tmp[i][j] = 1;
-            else if (head->content[j] == 'S' || head->content[j] == 'N' || head->content[j] == 'W' || head->content[j] == 'E')
-                map_tmp[i][j] = 2;
+                map_tmp[i][j] = ' ';
+            else if (head->content[j] == 'N' || head->content[j] == 'S' || head->content[j] == 'W' || head->content[j] == 'E')
+           {
+                map_tmp[i][j] = 3;
+                data->player.x = j;
+                data->player.y = i;
+                data->player.position_side = head->content[j];
+           }
             else
                 return (0);
             j++;
@@ -164,9 +185,12 @@ int handle_map(t_list *head, t_map_info *map)
     return (1);
 }
 
-void parse_map(t_list *head, t_map_info *map)
+void parse_map(t_list *head, t_data *data)
 {
     char *diraction[4];
+    t_map_info *map;
+
+    map = &data->map_info;
     while (head)
     {
        if (!ft_strncmp(head->content,"NO", 2) && ft_strlen(head->content) > 3)
@@ -185,33 +209,11 @@ void parse_map(t_list *head, t_map_info *map)
             break;
         head = head->next;
     }
-    open_texture(map, diraction);
-    if (!handle_map(head, map))
+    open_texture(data, diraction);
+    if (!handle_map(head, data))
     {
         ft_lstclear(&head);
         error_and_exit("Error\nCan't handle map\n", -9);
-    }
-}
-void print_texture(t_map_info *map)
-{
-    size_t i;
-    i = 0;
-    printf("NO: %d\n", map->north);
-    printf("SO: %d\n", map->south);
-    printf("WE: %d\n", map->west);
-    printf("EA: %d\n", map->east);
-    printf("F: %d\n", map->floor);
-    printf("C: %d\n", map->ceiling);
-    while (i < map->height_map)
-    {
-        size_t j = 0;
-        while(j < map->width_map)
-        {
-            printf("%d", map->map[i][j]);
-            j++;
-        }
-        printf("\n");
-        i++;
     }
 }
 
@@ -229,7 +231,6 @@ void read_map (int ac, char **av, t_data *data)
     head = NULL;
     read_file(av[1], &head);
     trim_map(&head);
-    parse_map(head, &data->map_info);
-    print_texture(&data->map_info);
+    parse_map(head, data);
     ft_lstclear(&head);
 }

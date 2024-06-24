@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/24 16:54:26 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/24 19:36:46 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	draw(t_data *data)
 {
-	t_ray	rays[MAP_WIDTH * TILE_SIZE];
+	t_ray	rays[data->map_info.width_map * TILE_SIZE];
 
 	cast_all_rays(data, rays);
 	render_walls(data, rays);
@@ -26,6 +26,7 @@ int	main(int ac, char **av)
 	t_data	data;
 
 	read_map(ac, av, &data);
+	print_texture(&data.map_info);
 	init_game(&data);
 	draw(&data);
 	mlx_hook(data.mlx_win, 2, 0, movement, &data);
