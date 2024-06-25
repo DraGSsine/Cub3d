@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:40:46 by ymomen            #+#    #+#             */
-/*   Updated: 2024/06/24 23:41:02 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/25 10:02:45 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,15 @@ int handle_map(t_list *head, t_data *data)
         j = 0;    
         while(head->content[j])
         {
-            if (head->content[j] != '0' && head->content[j] != '1' && head->content[j] != '2' && head->content[j] != 'N' && head->content[j] != 'S' && head->content[j] != 'W' && head->content[j] != 'E' && head->content[j] != ' ' && head->content[j] != '\t')
+            if (head->content[j] != '0' && head->content[j] != '1' && head->content[j] != 'N' && head->content[j] != 'S' && head->content[j] != 'W' && head->content[j] != 'E' && head->content[j] != ' ' && head->content[j] != '\t')
                 error_and_exit("Error\nWrong Map\n", -9);
+            if (head->content[j] == 'N' || head->content[j] == 'S' || head->content[j] == 'W' || head->content[j] == 'E')
+            {
+                data->player.x = j;
+                data->player.y = i;
+                data->player.rotation_angle = (head->content[j] == 'N') ? 270 * (M_PI / 180) : (head->content[j] == 'S') ? 90 * (M_PI / 180) : (head->content[j] == 'W') ? 180 * (M_PI / 180) : 0;
+            }
+                
             map[i][j] = head->content[j];
             j++;
         }
