@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/24 19:36:46 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/27 10:15:38 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 
-	read_map(ac, av, &data);
+	read_file_parse(ac, av, &data);
 	print_texture(&data.map_info);
 	init_game(&data);
 	draw(&data);

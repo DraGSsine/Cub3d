@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:09:54 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/24 19:46:04 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/27 10:09:32 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	clear_screen(t_data *data)
 		while (x < data->map_info.window_width)
 		{
 			if (y < data->map_info.window_height / 2)
-				my_mlx_pixel_put(data, x, y, data->map_info.ceiling);
+				my_mlx_pixel_put(data, x, y, data->map_info.ceiling_clr);
 			else
-				my_mlx_pixel_put(data, x, y, data->map_info.floor);
+				my_mlx_pixel_put(data, x, y, data->map_info.floor_clr);
 			x++;
 		}
 		y++;

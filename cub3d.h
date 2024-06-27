@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/24 19:16:21 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/27 10:03:16 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ typedef struct s_map_info
 	int		window_width;
 	int		window_height;
 	int		rays_num;
-	int		north;
-	int		south;
-	int		west;
-	int		east;
-	int		floor;
-	int		ceiling;
-	int		**map;
-	size_t 	height_map;
-	size_t 	width_map;
+	char	*north_txt;
+	char	*south_txt;
+	char	*west_txt;
+	char	*east_txt;
+	int		floor_clr;
+	int		ceiling_clr;
+	char	**map;
+	int		height_map;
+	int		width_map;
 	unsigned int		*texture[8];
 }	t_map_info;
 
@@ -135,27 +135,38 @@ typedef struct s_texture
 		/*Linked_ls**/
 typedef struct s_list
 {
-	char			*content;
+	char			*str;
 	struct s_list	*next;
 }	t_list;
 void		ft_lstclear(t_list **lst);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 t_list		*ft_lstnew(char *content);
 int			ft_lstsize(t_list *lst);
+void		print_list(t_list *head);
 
 		/* FUNCTIONS */
+void		trime(t_data *data);
+int			ft_strchr( char *s, int c);
+int			ft_strchr( char *s, int c);
+size_t		len_map(t_list *hd);
+int			check_map_line(char *line);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void		*ft_memset(void *b, int c, size_t len);
+void		free_it_v2(char **s, int i);
+void		second_parse(int fd, t_data *data, char *lst_line);
+void		free_map_info(t_data *data);
+int			parce_color(char *line);
 void		print_texture(t_map_info *map);
+int			parse_map(t_list *hd, t_data *data);
 int			ft_isdigit(int c);
 char		*ft_strtrim( char *s1, char *set);
 char		*ft_monstrdup( char *s1, size_t size);
 int			ft_strncmp( char *s1, char *s2, size_t n );
-void		read_file(char *file, t_list **head);
-void		read_map(int ac, char **av, t_data *data);
+int			open_file(char *file);
+void		read_file_parse(int ac, char **av, t_data *data);
 int			ft_strcmp(char *s1, char *s2);
 void		error_and_exit(char *s, int exite);
 int			ft_strlen(char *s);
-void		render_walls(t_data *data, t_ray *rays);
-void		draw_wall(t_data *data, int i, int wall_height, t_ray *ray);
 
 /*get_next_line*/
 char		*read_and_getline(char *buf, int fd, char *line);
@@ -167,6 +178,9 @@ int			ft_strchr1( char *s, int readit);
 char		*get_next_line(int fd);
 /******************************************************************************/
 
+
+void		render_walls(t_data *data, t_ray *rays);
+void		draw_wall(t_data *data, int i, int wall_height, t_ray *ray);
 void		init_game(t_data *data);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int			movement(int key, t_data *data);

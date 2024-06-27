@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:42:01 by ymomen            #+#    #+#             */
-/*   Updated: 2024/06/23 22:57:33 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:29:57 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_list	*ft_lstnew(char *content)
 	new = (t_list *)malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
-	new->content = content;
+	new->str = ft_monstrdup(content, ft_strlen(content));
 	new->next = NULL;
 	return (new);
 }
@@ -43,20 +43,23 @@ void	ft_lstclear(t_list **lst)
 {
 	t_list	*tmp;
 
+	if (!lst || !*lst)
+		return ;
 	while (*lst)
 	{
 		tmp = (*lst)->next;
-		free((*lst)->content);
+		free((*lst)->str);
 		free(*lst);
 		*lst = tmp;
 	}
+	*lst = NULL;
 }
 
 void	print_list(t_list *head)
 {
 	while (head)
 	{
-		printf("%s\n", head->content);
+		printf("%s\n", head->str);
 		head = head->next;
 	}
 }
