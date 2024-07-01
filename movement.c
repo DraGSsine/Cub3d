@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:28:30 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/30 06:49:28 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/27 18:51:42 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	back_move(t_data *data)
 {
 	int	x;
 	int	y;
-
 	x = data->player.move_speed * cos(data->player.rotation_angle);
 	y = data->player.move_speed * sin(data->player.rotation_angle);
 	if (hit_wall(data, data->player.x - x, data->player.y - y) == 0)
@@ -44,7 +43,6 @@ void	left_move(t_data *data)
 {
 	int	x;
 	int	y;
-
 	x = data->player.move_speed * cos(data->player.rotation_angle - M_PI_2);
 	y = data->player.move_speed * sin(data->player.rotation_angle - M_PI_2);
 	if (hit_wall(data, data->player.x + x, data->player.y + y) == 0)
@@ -58,7 +56,6 @@ void	right_move(t_data *data)
 {
 	int	x;
 	int	y;
-
 	x = data->player.move_speed * cos(data->player.rotation_angle + M_PI_2);
 	y = data->player.move_speed * sin(data->player.rotation_angle + M_PI_2);
 	if (hit_wall(data, data->player.x + x, data->player.y + y) == 0)

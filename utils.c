@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:34:15 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/01 09:53:52 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/28 14:53:57 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ double	distance_between_points(double x1, double y1, double x2, double y2)
 
 int	hit_wall(t_data *data, int x, int y)
 {
-	if (data->map_info.map[y / TILE_SIZE][x / TILE_SIZE] == 1)
+	if (x < 0 || x >= data->map_info.width_map * TILE_SIZE ||
+		y < 0 || y >= data->map_info.height_map * TILE_SIZE)
+		return (0);
+	if (data->map_info.map[y / TILE_SIZE][x / TILE_SIZE] == '1')
 		return (1);
 	return (0);
 }

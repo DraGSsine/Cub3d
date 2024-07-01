@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_walls.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:09:54 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/04 13:27:35 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/27 21:20:51 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	draw_wall(t_data *data, int i,
 	int	color;
 	int	y;
 
+
 	if (wall_height > data->map_info.window_height)
 		wall_height = data->map_info.window_height;
 	start = (data->map_info.window_height / 2) - (wall_height / 2);
@@ -73,6 +74,7 @@ void	render_walls(t_data *data, t_ray *rays)
 	i = 0;
 	while (i < data->map_info.rays_num)
 	{
+		
 		ray_distance = rays[i].distance * cos(data->player.rotation_angle
 			- rays[i].ray_angle );
 		wall_height = (TILE_SIZE / ray_distance) * proj_dist;

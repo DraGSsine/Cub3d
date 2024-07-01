@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/01 10:48:55 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/30 11:03:47 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,64 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
-# define MAP_WIDTH 15
-# define MAP_HEIGHT 11
+# include <unistd.h>
+# include <fcntl.h>
+# define MAP_WIDTH 1500
+# define MAP_HEIGHT 1000
 # define TILE_SIZE 64
+# define BUFFER_SIZE 42
+
+# define NORTH 78
+# define SOUTH 83
+# define WEST 87
+# define EAST 69
 
 typedef struct s_map_info
 {
-	int		map[MAP_HEIGHT][MAP_WIDTH];
 	int		window_width;
 	int		window_height;
 	int		rays_num;
+	char	*north_txt;
+	char	*south_txt;
+	char	*west_txt;
+	char	*east_txt;
+	int		floor_clr;
+	int		ceiling_clr;
+	char	**map;
+	int		height_map;
+	int		width_map;
+	
 }	t_map_info;
 
 typedef struct s_player
 {
 	double	x;
 	double	y;
-	double	dir;
 	double	fov;
 	double	move_speed;
 	double	rotation_speed;
 	double	rotation_angle;
+	int		position_side;
 }	t_player;
+
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int		img_width;
+	int		img_height;
+}	t_img;
 
 typedef struct s_data
 {
-	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
+	t_img		img;
+	t_img		north_txt;
+	t_img		south_txt;
+	t_img		west_txt;
+	t_img		east_txt;
 	void		*mlx;
 	void		*mlx_win;
 	t_map_info	map_info;
@@ -103,6 +131,59 @@ typedef struct s_vert_info
 	double	down;
 	double	up;
 }	t_vert_info;
+
+/****************************** |ADD BY YOUSSEF| *****************************/
+
+		/*Linked_ls**/
+typedef struct s_list
+{
+	char			*str;
+	struct s_list	*next;
+}	t_list;
+void		ft_lstclear(t_list **lst);
+void		ft_lstadd_back(t_list **lst, t_list *new);
+t_list		*ft_lstnew(char *content);
+int			ft_lstsize(t_list *lst);
+void		print_list(t_list *head);
+
+		/* FUNCTIONS */
+void open_textures(t_data *data);
+void set_retation(t_data *data);
+void		trime(t_data *data);
+int			ft_strchr( char *s, int c);
+int			ft_strchr( char *s, int c);
+size_t		len_map(t_list *hd);
+int			check_map_line(char *line);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void		*ft_memset(void *b, int c, size_t len);
+void		free_it_v2(char **s, int i);
+void		second_parse(int fd, t_data *data, char *lst_line);
+void		free_map_info(t_data *data);
+int			parce_color(char *line);
+void		print_texture(t_map_info *map);
+int			parse_map(t_list *hd, t_data *data);
+int			ft_isdigit(int c);
+char		*ft_strtrim( char *s1, char *set);
+char		*ft_monstrdup( char *s1, size_t size);
+int			ft_strncmp( char *s1, char *s2, size_t n );
+int			open_file(char *file);
+void		read_file_parse(int ac, char **av, t_data *data);
+int			ft_strcmp(char *s1, char *s2);
+void		error_and_exit(char *s, int exite);
+int			ft_strlen(char *s);
+
+/*get_next_line*/
+char		*read_and_getline(char *buf, int fd, char *line);
+void		free_it(char *str);
+char		*ft_strjoin1(char *line, char *buf);
+void		shift(char *buf, int endl);
+int			ft_strlen1(char *s);
+int			ft_strchr1( char *s, int readit);
+char		*get_next_line(int fd);
+/******************************************************************************/
+
+
+
 
 void		init_game(t_data *data);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);

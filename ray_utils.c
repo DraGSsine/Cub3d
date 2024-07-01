@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youchen <youchen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:27:53 by youchen           #+#    #+#             */
-/*   Updated: 2024/05/31 16:03:42 by youchen          ###   ########.fr       */
+/*   Updated: 2024/06/30 10:21:52 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	keep_checking(t_data *data, int x, int y)
 {
-	if (x < 0 || x >= data->map_info.window_width)
+	if (x < 0 || x >= data->map_info.width_map * TILE_SIZE)
 		return (0);
-	if (y < 0 || y >= data->map_info.window_height)
+	if (y < 0 || y >= data->map_info.height_map * TILE_SIZE)
 		return (0);
 	return (1);
 }
