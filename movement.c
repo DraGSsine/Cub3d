@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:28:30 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/27 18:51:42 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/05 22:59:56 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,46 @@ void	right_move(t_data *data)
 	}
 }
 
-int	movement(int key, t_data *data)
+void	movement(void *arg)
 {
-	if (key == 126 || key == 13)
-		front_move(data);
-	else if (key == 125 || key == 1)
-		back_move(data);
-	else if (key == 2)
-		right_move(data);
-	else if (key == 0)
-		left_move(data);
-	else if (key == 124)
-		data->player.rotation_angle += data->player.rotation_speed;
-	else if (key == 123)
-		data->player.rotation_angle -= data->player.rotation_speed;
-	else if (key == 53)
+	t_data	*data;
+	data = arg;
+	if ( mlx_is_key_down(data->imgs.mlx, MLX_KEY_W) || mlx_is_key_down(data->imgs.mlx, MLX_KEY_UP))
 	{
-		mlx_destroy_window(data->mlx, data->mlx_win);
+		data->rand = 1;
+		front_move(data);
+	}
+	else if (mlx_is_key_down(data->imgs.mlx, MLX_KEY_S) || mlx_is_key_down(data->imgs.mlx, MLX_KEY_DOWN))
+	{
+		data->rand = 1;
+		back_move(data);
+	}
+	else if (mlx_is_key_down(data->imgs.mlx, MLX_KEY_D))
+	{
+		data->rand = 1;	
+		right_move(data);
+	}
+	else if (mlx_is_key_down(data->imgs.mlx, MLX_KEY_A))
+	{
+		data->rand = 1;
+		left_move(data);
+	}
+	else if (mlx_is_key_down(data->imgs.mlx, MLX_KEY_LEFT))
+	{
+		data->rand = 1;
+		data->player.rotation_angle -= data->player.rotation_speed;
+	}
+	else if (mlx_is_key_down(data->imgs.mlx, MLX_KEY_RIGHT))
+	{
+		data->rand = 1;
+		data->player.rotation_angle += data->player.rotation_speed;
+	}
+	else if (mlx_is_key_down(data->imgs.mlx, MLX_KEY_ESCAPE))
+	{
+		mlx_close_window(data->imgs.mlx);
 		exit(0);
 	}
-	draw(data);
-	return (0);
+	if (data->rand)
+		draw(data);
+	
 }

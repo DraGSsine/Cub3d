@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:34:15 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/28 14:53:57 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/05 19:42:26 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	hit_wall(t_data *data, int x, int y)
 	if (x < 0 || x >= data->map_info.width_map * TILE_SIZE ||
 		y < 0 || y >= data->map_info.height_map * TILE_SIZE)
 		return (0);
+
 	if (data->map_info.map[y / TILE_SIZE][x / TILE_SIZE] == '1')
 		return (1);
 	return (0);

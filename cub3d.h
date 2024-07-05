@@ -6,22 +6,22 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/30 11:03:47 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/05 22:42:49 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-# include <mlx.h>
+#include "./MLX42/include/MLX42/MLX42.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <unistd.h>
 # include <fcntl.h>
-# define MAP_WIDTH 1500
-# define MAP_HEIGHT 1000
-# define TILE_SIZE 64
+# define WIN_WIDTH 1500
+# define WIN_HEIGHT 1000
+# define TILE_SIZE 32
 # define BUFFER_SIZE 42
 
 # define NORTH 78
@@ -59,27 +59,14 @@ typedef struct s_player
 
 typedef struct s_img
 {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	int		img_width;
-	int		img_height;
+	mlx_t		*mlx;
+	mlx_image_t	*map;
+	mlx_image_t *north;
+	mlx_image_t *south;
+	mlx_image_t *west;
+	mlx_image_t *east;
 }	t_img;
 
-typedef struct s_data
-{
-	t_img		img;
-	t_img		north_txt;
-	t_img		south_txt;
-	t_img		west_txt;
-	t_img		east_txt;
-	void		*mlx;
-	void		*mlx_win;
-	t_map_info	map_info;
-	t_player	player;
-}	t_data;
 
 typedef struct s_ray_horz
 {
@@ -103,6 +90,15 @@ typedef struct s_ray
 	double			distance;
 	double			ray_angle;
 }	t_ray;
+
+typedef struct s_data
+{
+	t_img			imgs;
+	t_map_info		map_info;
+	t_player		player;
+	t_ray 			rays[WIN_WIDTH];
+	bool			rand;
+}	t_data;
 
 typedef struct s_horz_info
 {
@@ -160,7 +156,7 @@ void		free_it_v2(char **s, int i);
 void		second_parse(int fd, t_data *data, char *lst_line);
 void		free_map_info(t_data *data);
 int			parce_color(char *line);
-void		print_texture(t_map_info *map);
+void		print_texture(t_map_info *map, t_data *data);
 int			parse_map(t_list *hd, t_data *data);
 int			ft_isdigit(int c);
 char		*ft_strtrim( char *s1, char *set);
@@ -187,9 +183,9 @@ char		*get_next_line(int fd);
 
 void		init_game(t_data *data);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int			movement(int key, t_data *data);
+void		movement(void *data);
 int			hit_wall(t_data *data, int x, int y);
-void		draw(t_data *data);
+void		draw(void *data);
 int			close_window(t_data *data);
 void		cast_all_rays(t_data *data, t_ray *rays);
 void		cast_ray(double ray_angle, t_data *data, t_ray *ray);

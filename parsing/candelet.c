@@ -6,24 +6,32 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:29:41 by ymomen            #+#    #+#             */
-/*   Updated: 2024/06/30 10:14:20 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/05 22:00:09 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	print_texture(t_map_info *map)
+void	print_texture(t_map_info *map, t_data *data)
 {
 	int	i;
 
 	i = 0;
+	printf("player info\n");
+	printf("x: %f\n", data->player.x);
+	printf("y: %f\n", data->player.y);
+	printf("fov: %f\n", data->player.fov);
+	printf("move_speed: %f\n", data->player.move_speed);
+	printf("rotation_speed: %f\n", data->player.rotation_speed);
+	printf("rotation_angle: %f\n", data->player.rotation_angle);
+	printf("position_side: %d\n", data->player.position_side);
+	printf("valid map\n");
 	printf("NO: %s\n", map->north_txt);
 	printf("SO: %s\n", map->south_txt);
 	printf("WE: %s\n", map->west_txt);
 	printf("EA: %s\n", map->east_txt);
 	printf("F: %d\n", map->floor_clr);
 	printf("C: %d\n", map->ceiling_clr);
-	printf("with_map :%d, heigth_map :%d\n", map->width_map, map->height_map);
 	while (map->map && map->map[i])
 	{
 		printf("%s\n", map->map[i]);

@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 07:51:11 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/30 11:04:21 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/05 15:47:41 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 double	distance(t_data *data, double x, double y, double found)
 {
 	if (found)
-		return (distance_between_points(data->player.x, data->player.y, x, y));
+	{
+		return (distance_between_points(data->player.x, data->player.y, x, y));		
+	}
 	return (INT_MAX);
 }
 
@@ -45,7 +47,6 @@ void	short_distance(t_ray *ray, t_ray_horz horz,
 		ray->wall_hit_y = vert.wall_hit_y;
 		ray->was_hit_vertical = 1;
 	}
-	// my_mlx_pixel_put(data, ray->wall_hit_x, ray->wall_hit_y, 0xFFFFFF);
 }
 
 

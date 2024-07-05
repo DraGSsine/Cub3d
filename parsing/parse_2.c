@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 12:29:48 by ymomen            #+#    #+#             */
-/*   Updated: 2024/06/28 14:02:13 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/05 22:16:56 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ int	check_valid_map(t_data *data)
 			{
 				if (data->player.position_side)
 					return (0);
-				data->player.x = (r + 0.5) * TILE_SIZE;
-				data->player.y = (c + 0.5) * TILE_SIZE;
+				data->player.x = ((double)r + 0.5) * TILE_SIZE;	
+				data->player.y = ((double)c + 0.5) * TILE_SIZE;
 				data->player.position_side = data->map_info.map[c][r];
 			}
 		}

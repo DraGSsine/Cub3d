@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:40:46 by ymomen            #+#    #+#             */
-/*   Updated: 2024/06/30 11:14:57 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/05 15:13:52 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	init_values(t_data *data)
 {
-	data->map_info.window_width = MAP_WIDTH;
-	data->map_info.window_height = MAP_HEIGHT;
-	data->map_info.rays_num = MAP_WIDTH;
+	data->map_info.window_width = WIN_WIDTH;
+	data->map_info.window_height = WIN_HEIGHT;
+	data->map_info.rays_num = WIN_WIDTH;
 	data->map_info.north_txt = NULL;
 	data->map_info.south_txt = NULL;
 	data->map_info.west_txt = NULL;
@@ -27,6 +27,7 @@ void	init_values(t_data *data)
 	data->player.x = -1;
 	data->player.y = -1;
 	data->player.position_side = 0;
+	data->rand = true;
 }
 
 char	*identifier_parse(char *line)
@@ -109,4 +110,5 @@ void	read_file_parse(int ac, char **av, t_data *data)
 	first_parse(fd, data, &last_line);
 	second_parse(fd, data, last_line);
 	set_retation(data);
+	
 }

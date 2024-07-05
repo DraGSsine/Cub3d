@@ -6,63 +6,194 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/30 10:31:27 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/05 22:58:52 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// void draw_square(t_data *data, int x, int y, int color)
-// {
-//     int    i;
-//     int    j;
-
-//     i = 0;
-//     while (i < TILE_SIZE)
-//     {
-//         j = 0;
-//         while (j < TILE_SIZE)
-//         {
-//             my_mlx_pixel_put(data, x + i, y + j, color);
-//             j++;
-//         }
-//         i++;
-//     }
-// }
-
-// void draw2dmap(t_data *data)
-// {
-//     int    x;
-//     int    y;
-
-//     y = 0;
-//     while (y < data->map_info.height_map)
-//     {
-//         x = 0;
-//         while (x < data->map_info.width_map)
-//         {
-//             if (data->map_info.map[y][x] == '1')
-//                 draw_square(data, x * TILE_SIZE, y * TILE_SIZE, 0x00FF0000);
-//             else
-//                 draw_square(data, x * TILE_SIZE, y * TILE_SIZE, 0x00000000);
-//             x++;
-//         }
-//         y++;
-//     }
-
-// }
-
-// void drawplayer(t_data *data)
-// {
-//     my_mlx_pixel_put(data, data->player.x, data->player.y, 0xFFFF00);
-// }
-
-void	draw(t_data *data)
+void ft_draw(t_data *data, int x, int y, int color)
 {
-	t_ray	rays[MAP_WIDTH];
-	cast_all_rays(data, rays);
-	render_walls(data, rays);
-	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.img, 0, 0);
+    int l = 0;
+    while ( l < TILE_SIZE)
+    {
+        int k = 0;
+        while (k < TILE_SIZE)
+        {
+            mlx_put_pixel(data->imgs.map, x + k, y + l, color);
+            k++;
+        }
+        l++;
+    }
+}
+
+void    ft_draw_line(int x1, int y1, int x2, int y2, t_data *cub, u_int32_t color)
+{
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
+    int sx;
+    int sy;
+    int err;
+    int e2;
+
+    sx = (x1 < x2) ? 1 : -1;
+    sy = (y1 < y2) ? 1 : -1;
+    err = dx - dy;
+
+    while (true)
+    {
+        if (!(x1 < 0 || y1 < 0 || x1 > WIN_WIDTH || y1 > WIN_HEIGHT))
+            mlx_put_pixel(cub->imgs.map, x1, y1, color);
+
+        if (x1 == x2 && y1 == y2)
+            break;
+
+        e2 = 2 * err;
+        
+        if (e2 > -dy) 
+        {
+            err -= dy;
+            x1 += sx;
+        }
+        
+        if (e2 < dx)
+        {
+            err += dx;
+            y1 += sy;
+        }
+    }
+}
+
+
+void    ft_draw_player(t_data *cub)
+{
+    int    x;
+    int    y;
+    int    radius;
+    float px, py;
+
+    px = cub->player.x;
+    py = cub->player.y;
+    x = (px + 20 * cos(cub->player.rotation_angle));
+    y = (py + 20 * sin(cub->player.rotation_angle));
+    ft_draw_line(px, py, x, y, cub, 0x000000FF);
+    radius = 5;
+    y = py - radius;
+    while (y < py + radius)
+    {
+        x = px - radius;
+        while (x < px + radius)
+        {
+            if (pow(x - px, 2) + pow(y - py, 2) < pow(radius, 2) )
+                mlx_put_pixel(cub->imgs.map, x, y, 0xFF4545);
+            x++;
+        }
+        y++;
+    }
+}
+void    ft_draw_line2(int x2, int y2, t_data *cub)
+{
+    int dx;
+    int dy;
+    int sx;
+    int sy;
+    int err;
+    int e2;
+    int    x1;
+    int    y1;
+    int    px;
+    int    py;
+
+
+    px = (cub->player.x);
+    py = (cub->player.y);
+    x1 = px;
+    y1 = py;
+    dx = abs(x2 - x1);
+    dy = abs(y2 - y1);
+    sx = (x1 < x2) ? 1 : -1;
+    sy = (y1 < y2) ? 1 : -1;
+    err = dx - dy;
+    while (true)
+    {
+        if (x1 >= 0 && y1 >= 0 && x1 < cub->map_info.width_map * TILE_SIZE && y1 < cub->map_info.height_map * TILE_SIZE)
+        {
+                if (x1 < 0 || y1 < 0 || x1 >= WIN_WIDTH || y1 >= WIN_HEIGHT)
+                    break;
+                mlx_put_pixel(cub->imgs.map, x1, y1, 0xA6A600FF);
+        }
+        if (x1 == x2 && y1 == y2)
+            break;
+        e2 = 2 * err;
+        if (e2 > -dy) 
+        {
+            err -= dy;
+            x1 += sx;
+        }
+        
+        if (e2 < dx)
+        {
+            err += dx;
+            y1 += sy;
+        }
+    }
+}
+void    ft_draw_rays_minimap(t_data *cub)
+{
+    int    x2, y2;
+    float    ray_distance;
+
+    for (int i = 0; i < WIN_WIDTH; i++)
+    {
+        ray_distance = cub->rays[i].distance;
+        x2 = cub->player.x + (ray_distance - 1) * cos(cub->rays[i].ray_angle);
+        y2 = cub->player.y + (ray_distance - 1) * sin(cub->rays[i].ray_angle);
+        ft_draw_line2(x2, y2, cub);
+    }
+}
+
+
+void ft_rander(void *cub)
+{
+    int i;
+    int j;
+    t_data *data;
+    
+    data = (t_data *)cub;
+    i = 0;
+    while (i < data->map_info.height_map)
+    {
+        j = 0;
+        while (j < data->map_info.width_map)
+        {
+            if (data->map_info.map[i][j] == '1')
+                ft_draw(data, j* TILE_SIZE, i * TILE_SIZE, 0x004DFF);
+            else if (data->map_info.map[i][j] == '0')
+                ft_draw(data, j * TILE_SIZE, i * TILE_SIZE, 0xFFFFFFFF);
+            if (data->map_info.map[i][j] == data->player.position_side)
+                    ft_draw(data, j * TILE_SIZE, i * TILE_SIZE, 0xFFFFFFFF);
+            j++;
+        }
+        i++;
+    }
+    ft_draw_rays_minimap(data);
+    ft_draw_player(data);
+}
+
+void	draw(void *arg)
+{
+	t_data	*data;
+	data = arg;
+	
+	
+	if (data->rand)
+	{
+		
+		cast_all_rays(data, data->rays);
+        ft_rander(data);
+		// render_walls(data, rays);
+
+		data->rand = false;
+	}
 }
 
 int	main(int ac ,char **av)
@@ -70,19 +201,10 @@ int	main(int ac ,char **av)
 	t_data	data;
 
 	read_file_parse(ac, av, &data);
-	print_texture(&data.map_info);
-	printf("player info\n");
-	printf("x: %f\n", data.player.x);
-	printf("y: %f\n", data.player.y);
-	printf("fov: %f\n", data.player.fov);
-	printf("move_speed: %f\n", data.player.move_speed);
-	printf("rotation_speed: %f\n", data.player.rotation_speed);
-	printf("rotation_angle: %f\n", data.player.rotation_angle);
-	printf("position_side: %d\n", data.player.position_side);
+	print_texture(&data.map_info, &data);
+	mlx_image_to_window(data.imgs.mlx, data.imgs.map, 0, 0);
+	mlx_loop_hook(data.imgs.mlx, movement, &data);
+	mlx_loop(data.imgs.mlx);
 	
-	draw(&data);
-	mlx_hook(data.mlx_win, 2, 0, movement, &data);
-	mlx_hook(data.mlx_win, 17, 0, close_window, &data);
-	mlx_loop(data.mlx);
 	return (0);
 }

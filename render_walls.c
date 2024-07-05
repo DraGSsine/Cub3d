@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:09:54 by youchen           #+#    #+#             */
-/*   Updated: 2024/06/27 21:20:51 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/05 22:08:41 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	clear_screen(t_data *data)
 		while (x < data->map_info.window_width)
 		{
 			if (y < data->map_info.window_height / 2)
-				my_mlx_pixel_put(data, x, y, 0x87CEEB);
+				mlx_put_pixel(data->imgs.map, x, y, data->map_info.ceiling_clr);
 			else
-				my_mlx_pixel_put(data, x, y, 0x684132);
+				mlx_put_pixel(data->imgs.map, x, y, data->map_info.floor_clr);
 			x++;
 		}
 		y++;
@@ -55,9 +55,12 @@ void	draw_wall(t_data *data, int i,
 	end = (data->map_info.window_height / 2) + (wall_height / 2);
 	color = get_color_wall(was_hit_vertical);
 	y = start;
+
 	while (y < end)
 	{
-		my_mlx_pixel_put(data, i, y, color);
+		// my_mlx_pixel_put(data, i, y, color);
+		// mlx_put_pixel(data->imgs.map, i, y, color);
+		mlx_put_pixel(data->imgs.map, i, y, color);
 		y++;
 	}
 }
@@ -70,11 +73,10 @@ void	render_walls(t_data *data, t_ray *rays)
 	double	ray_distance;
 
 	clear_screen(data);
-	proj_dist = (data->map_info.window_width / 2) / tan(data->player.fov / 2);
+	proj_dist = (data->map_info.window_width / 2) / tan(data->player.fov / 2) ;
 	i = 0;
 	while (i < data->map_info.rays_num)
 	{
-		
 		ray_distance = rays[i].distance * cos(data->player.rotation_angle
 			- rays[i].ray_angle );
 		wall_height = (TILE_SIZE / ray_distance) * proj_dist;
