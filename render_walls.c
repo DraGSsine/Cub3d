@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:09:54 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/05 22:08:41 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/06 21:09:29 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,20 @@ void	draw_wall(t_data *data, int i,
 	start = (data->map_info.window_height / 2) - (wall_height / 2);
 	end = (data->map_info.window_height / 2) + (wall_height / 2);
 	color = get_color_wall(was_hit_vertical);
-	y = start;
-
+	y = 0;
+	while( y < start)
+	{
+		mlx_put_pixel(data->imgs.map, i, y, data->map_info.ceiling_clr);
+		y++;
+	}
 	while (y < end)
 	{
-		// my_mlx_pixel_put(data, i, y, color);
-		// mlx_put_pixel(data->imgs.map, i, y, color);
 		mlx_put_pixel(data->imgs.map, i, y, color);
+		y++;
+	}
+	while (y < data->map_info.window_height)
+	{
+		mlx_put_pixel(data->imgs.map, i, y, data->map_info.floor_clr);
 		y++;
 	}
 }
@@ -72,7 +79,7 @@ void	render_walls(t_data *data, t_ray *rays)
 	int		i;
 	double	ray_distance;
 
-	clear_screen(data);
+	// clear_screen(data);
 	proj_dist = (data->map_info.window_width / 2) / tan(data->player.fov / 2) ;
 	i = 0;
 	while (i < data->map_info.rays_num)

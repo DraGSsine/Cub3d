@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/05 22:42:49 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/06 20:41:27 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@
 # include <fcntl.h>
 # define WIN_WIDTH 1500
 # define WIN_HEIGHT 1000
-# define TILE_SIZE 32
+#define WIN_WIDTH_MINI 900
+#define WIN_HEIGHT_MINI 900
+# define TILE_SIZE 64
+#define MINI_TILE_SIZE 20
 # define BUFFER_SIZE 42
+#define LIMIT 1.5
 
 # define NORTH 78
 # define SOUTH 83
@@ -61,6 +65,7 @@ typedef struct s_img
 {
 	mlx_t		*mlx;
 	mlx_image_t	*map;
+	mlx_image_t	*minimap;
 	mlx_image_t *north;
 	mlx_image_t *south;
 	mlx_image_t *west;

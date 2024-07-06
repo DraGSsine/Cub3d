@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 16:48:34 by ymomen            #+#    #+#             */
-/*   Updated: 2024/07/01 19:03:28 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/06 20:53:44 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	parce_color(char *line)
 	if (color[0] < 0 || color[0] > 255 || color[1] < 0 || color[1] > 255
 		|| color[2] < 0 || color[2] > 255)
 		return (-1);
-	return (color[0] << 16 | color[1] << 8 | color[2]);
+	return (color[0] << 24 | color[1] << 16 | color[2] << 8 | 0x000000FF);
 }
 
 int	check_map_line(char *line)
