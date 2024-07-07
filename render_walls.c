@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:09:54 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/07 13:06:17 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/07 16:40:14 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,17 @@ void	clear_screen(t_data *data)
 		y++;
 	}
 }
-void	draw_img (t_data *data, int x, int y, mlx_image_t *img , int offset_x, int offset_y)
+void	draw_img (t_data *data, int x, int y, mlx_image_t *img)
 {
 	int clr[4];
 	int color;
 	int i;
 
-	i = (offset_y * TILE_SIZE + offset_x) * 4;
-
+	i = (data->player.offset_x + data->player.offset_y * TILE_SIZE) * 4;
 	clr[0] = img->pixels[i];
 	clr[1] = img->pixels[i + 1];
 	clr[2] = img->pixels[i + 2];
 	clr[3] = img->pixels[i + 3];
-	// clr[3] *= exp(-0.0001 * distance);
 	color = (clr[0] << 24 | clr[1] << 16 | clr[2] << 8 | clr[3]);
 	mlx_put_pixel(data->imgs.map, x, y, color);
 }
@@ -67,35 +65,29 @@ void	draw_wall(t_data *data, int i,
 	int	start;
 	int	end;
 	int	y;
-	float texture_offset_x;
-	float texture_offset_y;
 	int distance;
 
 
-	if (wall_height > data->map_info.window_height)
-		wall_height = data->map_info.window_height;
 	start = (data->map_info.window_height / 2) - (wall_height / 2);
 	if (start < 0)
 		start = 0;
 	end = (data->map_info.window_height / 2) + (wall_height / 2);
 	if (end > data->map_info.window_height)
 		end = data->map_info.window_height;
-	texture_offset_x = get_offset_x(ray);
+	data->player.offset_x = get_offset_x(ray);
 	y = start;
 	while (y < end)
 	{	
 		distance = y + (wall_height / 2) - (data->map_info.window_height / 2);
-		texture_offset_y = distance * ((float)TILE_SIZE / wall_height);
+		data->player.offset_y = distance * ((float)TILE_SIZE / wall_height);
 		if (ray->was_hit_vertical && ((ray->ray_angle >= 0 && ray->ray_angle < M_PI_2) || (ray->ray_angle >= 3 * M_PI_2 && ray->ray_angle < 2 * M_PI)))
-			draw_img(data, i, y, data->imgs.east, texture_offset_x, texture_offset_y);
+			draw_img(data, i, y, data->imgs.east);
 		else if (ray->was_hit_vertical && ray->ray_angle >= M_PI_2 && ray->ray_angle < 3 * M_PI_2)
-			draw_img(data, i, y, data->imgs.west, texture_offset_x, texture_offset_y);
+			draw_img(data, i, y, data->imgs.west);
 		else if (!ray->was_hit_vertical && ray->ray_angle >= 0 && ray->ray_angle < M_PI)
-			draw_img(data, i, y, data->imgs.north, texture_offset_x, texture_offset_y);
+			draw_img(data, i, y, data->imgs.north);
 		else if (!ray->was_hit_vertical && ray->ray_angle >= M_PI && ray->ray_angle < 2 * M_PI)
-			draw_img(data, i, y, data->imgs.south, texture_offset_x, texture_offset_y);
-		
-			
+			draw_img(data, i, y, data->imgs.south);
 		y++;
 	}
 }
@@ -118,4 +110,5 @@ void	render_walls(t_data *data, t_ray *rays)
 		draw_wall(data, i, wall_height, &rays[i]);
 		i++;
 	}
+	
 }

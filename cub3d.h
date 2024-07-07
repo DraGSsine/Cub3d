@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/07 12:52:17 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/07 16:58:22 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <fcntl.h>
 # define WIN_WIDTH 1500
 # define WIN_HEIGHT 1000
-#define WIN_WIDTH_MINI 900
-#define WIN_HEIGHT_MINI 900
+#define WIN_WIDTH_MINI 700
+#define WIN_HEIGHT_MINI 700
 # define TILE_SIZE 1024
 #define MINI_TILE_SIZE 20
 # define BUFFER_SIZE 42
@@ -55,6 +55,8 @@ typedef struct s_player
 	double	x;
 	double	y;
 	double	fov;
+	int		offset_x;
+	int		offset_y;
 	double	move_speed;
 	double	rotation_speed;
 	double	rotation_angle;

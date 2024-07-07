@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/07 10:14:26 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/07 16:53:55 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void    ft_draw_player(t_data *cub)
 
     px = (cub->player.x / TILE_SIZE) * MINI_TILE_SIZE;
     py = (cub->player.y / TILE_SIZE) * MINI_TILE_SIZE;
-    x = (px + 20 * cos(cub->player.rotation_angle));
-    y = (py + 20 * sin(cub->player.rotation_angle));
+    x = (px + 40 * cos(cub->player.rotation_angle));
+    y = (py + 40 * sin(cub->player.rotation_angle));
     ft_draw_line(px, py, x, y, cub, 0x000000FF);
     radius = 5;
     y = py - radius;
@@ -133,12 +133,17 @@ void    ft_draw_line2(int x2, int y2, t_data *cub)
         }
     }
 }
+
+int	scale(double omax, double nmin, double nmax, double x)
+{
+	return (((nmax - nmin) * (x - 0) / (omax - 0)) + nmin);
+}
 void    ft_draw_rays_minimap(t_data *cub)
 {
     int    x2, y2;
-    float    ray_distance;
+    double    ray_distance = 0;
 
-    for (int i = 0; i < WIN_WIDTH_MINI; i++)
+    for (int i = 0; i < WIN_WIDTH; i++)
     {
         ray_distance = cub->rays[i].distance;
         x2 = ((cub->player.x /TILE_SIZE) * MINI_TILE_SIZE) + (ray_distance - 1) * cos(cub->rays[i].ray_angle);

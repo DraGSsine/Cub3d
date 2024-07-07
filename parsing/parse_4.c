@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:49:43 by ymomen            #+#    #+#             */
-/*   Updated: 2024/07/07 12:18:01 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/07 17:00:19 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void set_retation(t_data *data)
     data->player.rotation_speed = 2 * (M_PI / 180);
 	data->player.move_speed = 128;
 	data->player.fov = 60 * (M_PI / 180);
-    data->imgs.mlx = mlx_init(WIN_WIDTH + 500 , WIN_HEIGHT, "cub3D", false);
+    data->imgs.mlx = mlx_init(WIN_WIDTH + WIN_WIDTH_MINI, WIN_HEIGHT, "cub3D", false);
     data->imgs.map = mlx_new_image(data->imgs.mlx, WIN_WIDTH, WIN_HEIGHT);
     data->imgs.minimap = mlx_new_image(data->imgs.mlx, WIN_WIDTH_MINI, WIN_HEIGHT_MINI);
     open_textures(data);
