@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 07:51:11 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/05 15:47:41 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/07 12:30:53 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	cast_ray(double ray_angle, t_data *data, t_ray *ray)
 	t_ray_horz	horz;
 	t_ray_vert	vert;
 
-	ray_angle = normalize_angle(ray_angle);
 	horz = cast_horz_ray(ray_angle, data);
 	vert = cast_vert_ray(ray_angle, data);
 	short_distance(ray, horz, vert, data);
@@ -72,6 +71,7 @@ void	cast_all_rays(t_data *data, t_ray *ray)
 	ray_angle = data->player.rotation_angle - (data->player.fov / 2);
 	while (i < rays_num)
 	{
+		ray_angle = normalize_angle(ray_angle);
 		ray[i].ray_angle = ray_angle;
 		cast_ray(ray_angle, data, &ray[i]);
 		ray_angle += data->player.fov / rays_num;

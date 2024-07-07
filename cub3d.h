@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/06 20:41:27 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/07 12:52:17 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define WIN_HEIGHT 1000
 #define WIN_WIDTH_MINI 900
 #define WIN_HEIGHT_MINI 900
-# define TILE_SIZE 64
+# define TILE_SIZE 1024
 #define MINI_TILE_SIZE 20
 # define BUFFER_SIZE 42
 #define LIMIT 1.5

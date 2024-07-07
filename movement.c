@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:28:30 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/06 20:48:32 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/07 12:31:28 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	movement(void *arg)
 	data = arg;
 	if ( mlx_is_key_down(data->imgs.mlx, MLX_KEY_W) || mlx_is_key_down(data->imgs.mlx, MLX_KEY_UP))
 	{
-		data->rand = 1;
 		front_move(data);
+		data->rand = 1;
 	}
 	if (mlx_is_key_down(data->imgs.mlx, MLX_KEY_S) || mlx_is_key_down(data->imgs.mlx, MLX_KEY_DOWN))
 	{
@@ -93,11 +93,13 @@ void	movement(void *arg)
 	{
 		data->rand = 1;
 		data->player.rotation_angle -= data->player.rotation_speed;
+		data->player.rotation_angle = normalize_angle(data->player.rotation_angle);
 	}
 	if (mlx_is_key_down(data->imgs.mlx, MLX_KEY_RIGHT))
 	{
 		data->rand = 1;
 		data->player.rotation_angle += data->player.rotation_speed;
+		data->player.rotation_angle = normalize_angle(data->player.rotation_angle);
 	}
 	if (mlx_is_key_down(data->imgs.mlx, MLX_KEY_ESCAPE))
 	{

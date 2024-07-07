@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/06 20:38:42 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/07 10:14:26 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void    ft_draw_rays_minimap(t_data *cub)
     int    x2, y2;
     float    ray_distance;
 
-    for (int i = 0; i < WIN_WIDTH; i++)
+    for (int i = 0; i < WIN_WIDTH_MINI; i++)
     {
         ray_distance = cub->rays[i].distance;
         x2 = ((cub->player.x /TILE_SIZE) * MINI_TILE_SIZE) + (ray_distance - 1) * cos(cub->rays[i].ray_angle);
@@ -183,7 +183,6 @@ void	draw(void *arg)
 	
 	if (data->rand)
 	{
-		
 		cast_all_rays(data, data->rays);
 		render_walls(data, data->rays);
         ft_rander(data);
