@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:49:43 by ymomen            #+#    #+#             */
-/*   Updated: 2024/07/07 17:00:19 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/09 15:33:04 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void set_retation(t_data *data)
     
     c = data->player.position_side;
     if (c == 'N')
-        data->player.rotation_angle = 3 * M_PI_2;
-    else if (c == 'S')
         data->player.rotation_angle = M_PI_2;
+    else if (c == 'S')
+        data->player.rotation_angle = 3 * M_PI_2;
     else if (c == 'W')
         data->player.rotation_angle = M_PI;
     else if (c == 'E')
@@ -28,9 +28,10 @@ void set_retation(t_data *data)
     data->player.rotation_speed = 2 * (M_PI / 180);
 	data->player.move_speed = 128;
 	data->player.fov = 60 * (M_PI / 180);
-    data->imgs.mlx = mlx_init(WIN_WIDTH + WIN_WIDTH_MINI, WIN_HEIGHT, "cub3D", false);
+    data->imgs.mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "cub3D", false);
     data->imgs.map = mlx_new_image(data->imgs.mlx, WIN_WIDTH, WIN_HEIGHT);
-    data->imgs.minimap = mlx_new_image(data->imgs.mlx, WIN_WIDTH_MINI, WIN_HEIGHT_MINI);
+    data->imgs.mini = mlx_new_image(data->imgs.mlx, WIN_WIDTH_MINI, WIN_HEIGHT_MINI);
+    
     open_textures(data);
 }
 

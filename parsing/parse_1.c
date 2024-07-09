@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:40:46 by ymomen            #+#    #+#             */
-/*   Updated: 2024/07/07 14:07:33 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/08 17:14:44 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ int	check_txure(t_data *data, char *idx)
 		mi->north_txt = identifier_parse(idx + 2);
 	else if (!ft_strncmp(idx, "SO ", 3) && ft_strlen(idx) > 4 && !mi->south_txt)
 		mi->south_txt = identifier_parse(idx + 2);
-	else if (!ft_strncmp(idx, "WE ", 3) && ft_strlen(idx) > 4 && !mi->east_txt)
-		mi->east_txt = identifier_parse(idx + 2);
-	else if (!ft_strncmp(idx, "EA ", 3) && ft_strlen(idx) > 4 && !mi->west_txt)
+	else if (!ft_strncmp(idx, "WE ", 3) && ft_strlen(idx) > 4 && !mi->west_txt)
 		mi->west_txt = identifier_parse(idx + 2);
+	else if (!ft_strncmp(idx, "EA ", 3) && ft_strlen(idx) > 4 && !mi->east_txt)
+		mi->east_txt = identifier_parse(idx + 2);
 	else if (!ft_strncmp(idx, "F ", 2) && ft_strlen(idx) > 3
 		&& mi->floor_clr == -1)
 		mi->floor_clr = parce_color(idx + 1);
@@ -85,7 +85,7 @@ void	first_parse(int fd, t_data *data, char **line)
 	}
 	if (!data->map_info.north_txt || !data->map_info.south_txt \
 	|| !data->map_info.east_txt || !data->map_info.west_txt || \
-	data->map_info.floor_clr == -1 || data->map_info.ceiling_clr == -1)
+	data->map_info.floor_clr == 0 || data->map_info.ceiling_clr == 0)
 	{
 		free_map_info(data);
 		error_and_exit("Error\nMissing textures or colors\n", -9);
