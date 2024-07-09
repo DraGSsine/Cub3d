@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/09 18:51:02 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/09 18:58:35 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void    ft_draw_player_2(t_data *cub)
         while (x < px + radius)
         {
             if (pow(x - px, 2) + pow(y - py, 2) < pow(radius, 2) )
-                mlx_put_pixel(cub->imgs.mini, x, y, 0xFF4545FF);
+                mlx_put_pixel(cub->imgs.mini, x, y, 0x00FF00FF);
             x++;
         }
         y++;
@@ -166,12 +166,12 @@ void ft_mini_map(t_data *data, int x, int y)
                 else if (data->map_info.map[py / MINI_TILE_SIZE][px / MINI_TILE_SIZE] == '0')
                     ft_draw(data, j, i, 0xFFFFFFFF);
                 else
-                    ft_draw(data, j, i, 0xFF0000FF);
+                    ft_draw(data, j, i, 0x000000FF);
                 if (data->map_info.map[py / MINI_TILE_SIZE][px / MINI_TILE_SIZE] == data->player.position_side)
                     ft_draw(data, j, i, 0xFFFFFFFF);
             }
             else if (pow(px - x, 2) + pow(py - y, 2) < pow(radius, 2))
-                    ft_draw(data, j, i, 0xFF0000FF);
+                    ft_draw(data, j, i, 0x000000FF);
             px++;
             j++;
         }
@@ -204,7 +204,7 @@ int	main(int ac ,char **av)
 	read_file_parse(ac, av, &data);
 	print_texture(&data.map_info, &data);
     mlx_image_to_window(data.imgs.mlx, data.imgs.map, 0, 0);
-    mlx_image_to_window(data.imgs.mlx, data.imgs.mini, 650, 700);
+    mlx_image_to_window(data.imgs.mlx, data.imgs.mini, 1200, 0);
 	mlx_loop_hook(data.imgs.mlx, movement, &data);
 	mlx_loop(data.imgs.mlx);
 	
