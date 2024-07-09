@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/09 18:58:35 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/09 21:21:50 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ void    ft_draw_player_2(t_data *cub)
     int    radius;
     float px, py;
 
-    px = 300/2;
-    py = 300/2;
+    px = WIN_WIDTH_MINI / 2;
+    py = WIN_HEIGHT_MINI / 2;
     x = (px + 20 * cos(cub->player.rotation_angle));
     y = (py + 20 * sin(cub->player.rotation_angle));
     ft_draw_line(px, py, x, y, cub, 0x000000FF);
@@ -204,7 +204,7 @@ int	main(int ac ,char **av)
 	read_file_parse(ac, av, &data);
 	print_texture(&data.map_info, &data);
     mlx_image_to_window(data.imgs.mlx, data.imgs.map, 0, 0);
-    mlx_image_to_window(data.imgs.mlx, data.imgs.mini, 1200, 0);
+    mlx_image_to_window(data.imgs.mlx, data.imgs.mini, 1280, 20);
 	mlx_loop_hook(data.imgs.mlx, movement, &data);
 	mlx_loop(data.imgs.mlx);
 	
