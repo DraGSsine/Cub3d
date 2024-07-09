@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:51:56 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/09 15:38:46 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/09 18:51:02 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,17 @@ void    ft_draw_line2(int x2, int y2, t_data *cub)
     int e2;
     int    x1;
     int    y1;
-    x1 = 150;
-    y1 = 150;
+    x1 = WIN_WIDTH_MINI / 2;
+    y1 = WIN_HEIGHT_MINI / 2;
     dx = abs(x2 - x1);
     dy = abs(y2 - y1);
+    int radius = WIN_WIDTH_MINI / 2;
     sx = (x1 < x2) ? 1 : -1;
     sy = (y1 < y2) ? 1 : -1;
     err = dx - dy;
     while (true)
     {
-        if (x1 >= 0 && y1 >= 0 && x1 < 300 && y1 < 300)
+        if (x1 >= 0 && y1 >= 0 && x1 < WIN_WIDTH_MINI && y1 < WIN_HEIGHT_MINI && (pow(x1 - radius, 2) + pow(y1 - radius, 2) < pow(radius, 2)))
         {
                 if (x1 < 0 || y1 < 0 || x1 >= WIN_WIDTH_MINI || y1 >= WIN_HEIGHT_MINI)
                     break;
@@ -157,22 +158,20 @@ void ft_mini_map(t_data *data, int x, int y)
         px = x - radius;
         while (px < x + radius)
         {
-            if (px >= 0 && py >= 0 && px < data->map_info.width_map * MINI_TILE_SIZE && py < data->map_info.height_map * MINI_TILE_SIZE)
+            if (px >= 0 && py >= 0 && px < data->map_info.width_map * MINI_TILE_SIZE && py < data->map_info.height_map * MINI_TILE_SIZE && pow(px - x, 2) + pow(py - y, 2) < pow(radius, 2))
             {
-                if ( pow(px - x, 2) + pow(py - y, 2) < pow(radius, 2))
-                {
-                    if (data->map_info.map[py / MINI_TILE_SIZE][px / MINI_TILE_SIZE] == '1')
-                        ft_draw(data, j, i, 0x004DFF);
-                    else if (data->map_info.map[py / MINI_TILE_SIZE][px / MINI_TILE_SIZE] == '0')
-                       ft_draw(data, j, i, 0xFFFFFFFF);
-                    else
-                        ft_draw(data, j, i, 0x000000FF);
-                    if (data->map_info.map[py / MINI_TILE_SIZE][px / MINI_TILE_SIZE] == data->player.position_side)
-                        ft_draw(data, j, i, 0xFFFFFFFF);
-                }
+    
+                if (data->map_info.map[py / MINI_TILE_SIZE][px / MINI_TILE_SIZE] == '1')
+                    ft_draw(data, j, i, 0x004DFF);
+                else if (data->map_info.map[py / MINI_TILE_SIZE][px / MINI_TILE_SIZE] == '0')
+                    ft_draw(data, j, i, 0xFFFFFFFF);
                 else
-                    ft_draw(data, j, i, 0x000000FF);
+                    ft_draw(data, j, i, 0xFF0000FF);
+                if (data->map_info.map[py / MINI_TILE_SIZE][px / MINI_TILE_SIZE] == data->player.position_side)
+                    ft_draw(data, j, i, 0xFFFFFFFF);
             }
+            else if (pow(px - x, 2) + pow(py - y, 2) < pow(radius, 2))
+                    ft_draw(data, j, i, 0xFF0000FF);
             px++;
             j++;
         }
