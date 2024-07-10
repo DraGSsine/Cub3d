@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 07:51:28 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/10 17:40:16 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/10 19:25:20 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_horz_ray(t_horz_info *info, t_data *data, double ray_angle)
 	if (info->up)
 		info->y_step *= -1;
 	info->x_step = fabs(TILE_SIZE / tan(ray_angle));
-	if (info->left && info->x_step > 0)
+	if (info->left)
 		info->x_step *= -1;
 	info->next_horz_touch_x = info->x_intercept;
 	info->next_horz_touch_y = info->y_intercept;

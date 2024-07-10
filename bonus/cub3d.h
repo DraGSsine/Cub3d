@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:36:46 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/10 18:29:35 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/10 19:27:16 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@
 # define TILE_SIZE 1024
 #define MINI_TILE_SIZE 20
 # define BUFFER_SIZE 42
-#define LIMIT 1.5
-
+# define LIMIT 1.5
+# define RETATION_SPEED 2
+# define MOVE_SPEED 120
 # define NORTH 78
 # define SOUTH 83
 # define WEST 87

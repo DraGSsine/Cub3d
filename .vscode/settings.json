@@ -2,7 +2,8 @@
     "files.associations": {
         "stdio.h": "c",
         "__node_handle": "c",
-        "ios": "c"
+        "ios": "c",
+        "limits.h": "c"
     },
     "cmake.sourceDirectory": "/Users/ymomen/Desktop/Cub3d/MLX42"
 }
