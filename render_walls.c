@@ -6,7 +6,7 @@
 /*   By: ymomen <ymomen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:09:54 by youchen           #+#    #+#             */
-/*   Updated: 2024/07/09 15:38:51 by ymomen           ###   ########.fr       */
+/*   Updated: 2024/07/10 12:39:44 by ymomen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 int	get_offset_x(t_ray *ray)
 {
-	int texture_offset_x;
-	
+	int	texture_offset_x;
+
 	if (ray->was_hit_vertical)
 		texture_offset_x = (int)ray->wall_hit_y % TILE_SIZE;
 	else
 		texture_offset_x = (int)ray->wall_hit_x % TILE_SIZE;
-	
 	return (texture_offset_x);
 }
 
@@ -44,11 +43,12 @@ void	clear_screen(t_data *data)
 		y++;
 	}
 }
-void	draw_img (t_data *data, int x, int y, mlx_image_t *img)
+
+void	draw_img(t_data *data, int x, int y, mlx_image_t *img)
 {
-	int clr[4];
-	int color;
-	int i;
+	int	clr[4];
+	int	color;
+	int	i;
 
 	i = (data->player.offset_x + data->player.offset_y * TILE_SIZE) * 4;
 	clr[0] = img->pixels[i];
@@ -65,8 +65,7 @@ void	draw_wall(t_data *data, int i,
 	int	start;
 	int	end;
 	int	y;
-	int distance;
-
+	int	distance;
 
 	start = (data->map_info.window_height / 2) - (wall_height / 2);
 	if (start < 0)
@@ -77,7 +76,7 @@ void	draw_wall(t_data *data, int i,
 	data->player.offset_x = get_offset_x(ray);
 	y = start;
 	while (y < end)
-	{	
+	{
 		distance = y + (wall_height / 2) - (data->map_info.window_height / 2);
 		data->player.offset_y = distance * ((float)TILE_SIZE / wall_height);
 		if (ray->was_hit_vertical && ((ray->ray_angle >= 0 && ray->ray_angle < M_PI_2) || (ray->ray_angle >= 3 * M_PI_2 && ray->ray_angle < 2 * M_PI)))
@@ -100,15 +99,14 @@ void	render_walls(t_data *data, t_ray *rays)
 	double	ray_distance;
 
 	clear_screen(data);
-	proj_dist = (data->map_info.window_width / 2) / tan(data->player.fov / 2) ;
+	proj_dist = (data->map_info.window_width / 2) / tan(data->player.fov / 2);
 	i = 0;
 	while (i < data->map_info.rays_num)
 	{
 		ray_distance = rays[i].distance * cos(data->player.rotation_angle
-			- rays[i].ray_angle );
+				- rays[i].ray_angle);
 		wall_height = (TILE_SIZE / ray_distance) * proj_dist;
 		draw_wall(data, i, wall_height, &rays[i]);
 		i++;
 	}
-	
 }
